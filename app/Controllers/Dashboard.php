@@ -17,9 +17,11 @@ class Dashboard extends BaseController
             return redirect()->to('/login');
         }
         $data['nombre'] = $session->get('nombre_completo');
-        return view('select_year_view', $data);
+        $show_year=view('select_year_view/select_year_view_header.php', $data);
+        $show_year.=view('select_year_view/select_year_view_body.php', $data);
+        $show_year.=view('select_year_view/select_year_view_footer.php', $data);
+        return $show_year;
     }
-
     /**
      * Muestra el dashboard principal.
      * Ahora es capaz de obtener el año desde un POST (inicial) o un GET (cambio de periodo).
@@ -64,6 +66,9 @@ class Dashboard extends BaseController
             'selectedYear' => $selectedYear // Pasamos el año a la vista para el dropdown
         ];
         
-        return view('dashboard', $data);
+        $show_dashboard=view('dashboard/dashboard_header.php', $data);
+        $show_dashboard.=view('dashboard/dashboard_body.php', $data);
+        $show_dashboard.=view('dashboard/dashboard_footer.php', $data);
+        return $show_dashboard;
     }
 }

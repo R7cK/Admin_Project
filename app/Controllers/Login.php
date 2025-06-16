@@ -6,7 +6,7 @@ use App\Models\Usuario;
 
 class Login extends BaseController
 {
-    // ... tu método show_login() y captcha() se quedan igual ...
+    //Separacion de los valores mostrados en pantalla
     public function show_login(){
         $show_login=view('Login/Login_header.php');
         $show_login.=view('Login/Login_Body.php');
