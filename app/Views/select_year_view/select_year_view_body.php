@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-lg">Ver Proyectos</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Iniciar</button>
                 </div>
             </form>
         </div>

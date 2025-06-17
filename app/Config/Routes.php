@@ -14,3 +14,5 @@ $routes->post('/registrar', 'Registro::guardar');
 $routes->get('/login/captcha', 'Login::captcha');
 $routes->get('/select-year', 'Dashboard::selectYear');
 $routes->match(['get', 'post'], '/dashboard', 'Dashboard::index');
+$routes->get('/ajustes', 'Ajustes::index');
+$routes->get('/logout', 'Login::logout');

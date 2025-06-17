@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 // El nombre de la clase debe coincidir con el nombre del archivo (PascalCase)
 class Usuario extends Model
 {
-    protected $table = 'usuario'; // El nombre de tu tabla
+    protected $table = 'usuario'; 
     
 protected $allowedFields = ['Nombre', 'Apellido_Paterno', 'Apellido_Materno', 
 'Codigo_User', 'Correo', 'Password', 'rol'];
@@ -22,7 +22,7 @@ protected $allowedFields = ['Nombre', 'Apellido_Paterno', 'Apellido_Materno',
         // Usamos el Query Builder de CI4. El método first() es más eficiente.
         // Devuelve la primera fila que encuentra o null si no hay resultados.
         return $this->where('Correo', $correo)
-                    ->where('Password', $password) // <-- ¡OJO! Sigue siendo inseguro para un producto real.
+                    ->where('Password', $password) 
                     ->first();
     }
 

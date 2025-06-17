@@ -65,5 +65,15 @@
             font-size: 0.875em;
             margin-top: 0.25rem;
         }
+           .btn-password-toggle {
+            border-color: #fff;
+            color: #fff;
+            background-color: transparent;
+        }
+        .btn-password-toggle:hover, .btn-password-toggle:focus {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+            box-shadow: none;
     </style>
 </head>

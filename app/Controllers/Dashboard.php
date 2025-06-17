@@ -28,21 +28,31 @@ class Dashboard extends BaseController
      */
     public function index()
     {
-        $session = session();
-        if (!$session->get('is_logged_in')) {
-            return redirect()->to('/login');
-        }
+       $session = session();
 
-        // ----- LÓGICA MEJORADA PARA OBTENER EL AÑO -----
-        $selectedYear = $this->request->getPost('anio'); // Intenta obtenerlo de un POST
-        if (!$selectedYear) {
-            $selectedYear = $this->request->getGet('anio'); // Si no hay POST, intenta obtenerlo de un GET
-        }
+    if (!$session->get('is_logged_in')) {
+        return redirect()->to('/login');
+    }
 
-        // Si después de ambos intentos no hay año, redirigir a la página de selección.
-        if (!$selectedYear) {
-            return redirect()->to('/select-year');
-        }
+    // ----- LÓGICA MEJORADA Y DEFINITIVA PARA OBTENER EL AÑO -----
+
+    // Usamos getVar() que busca tanto en POST como en GET.
+    $yearFromRequest = $this->request->getVar('anio');
+
+    if ($yearFromRequest) {
+        // PRIORIDAD 1: El usuario seleccionó un año activamente.
+        // Usamos este año y lo guardamos en la sesión para futuras navegaciones.
+        $selectedYear = $yearFromRequest;
+        $session->set('selected_year', $selectedYear);
+    } else {
+        // PRIORIDAD 2: No hay selección activa, buscamos en la sesión.
+        $selectedYear = $session->get('selected_year');
+    }
+
+    // Si después de todo no tenemos un año, es el primer acceso.
+    if (!$selectedYear) {
+        return redirect()->to('/select-year');
+    }
         // ------------------------------------------------
 
         $userData = [

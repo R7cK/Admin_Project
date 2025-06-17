@@ -28,7 +28,12 @@
                 <div class="input-group-custom mb-3">
                     <label for="password" class="form-label">Contraseña</label>
                     <i class="fas fa-lock input-icon"></i>
-                    <input type="password" class="form-control form-control-custom" id="password" name="password" placeholder="********" required>
+                    <!-- Añadimos una clase extra para el padding -->
+                    <input type="password" class="form-control form-control-custom input-with-toggle" id="password" name="password" placeholder="********" required>
+                    <!-- Botón para alternar la visibilidad -->
+                    <button class="btn btn-password-toggle" type="button" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
                 </div>
 
                 <!-- ================================== -->
@@ -69,4 +74,21 @@
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            const icon = togglePassword.querySelector('i');
+
+            togglePassword.addEventListener('click', function () {
+                // Alternar el tipo de input
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+
+                // Alternar el icono
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+        });
+    </script>
 </body>

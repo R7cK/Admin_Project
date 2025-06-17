@@ -85,6 +85,26 @@
         .captcha-refresh-icon:hover {
             background-color: #5472e3;
         }
+         .btn-password-toggle {
+            position: absolute;
+            right: 0;
+            top: 33;
+            height: 50%;
+            z-index: 5; /* Para que esté sobre el input */
+            border: 2px solid #fff;
+            border-left: 0;
+            background-color: transparent;
+            color: #fff;
+        }
+        .btn-password-toggle:hover, .btn-password-toggle:focus {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+        }
+        /* Ajuste para que el input no se solape con el botón */
+        .input-with-toggle {
+            padding-right: 40px; 
+        }
     </style>
 </head>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

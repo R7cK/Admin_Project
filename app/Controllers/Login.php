@@ -17,7 +17,6 @@ class Login extends BaseController
     public function ingresar()
     {
         $session = session();
-        // La lógica del Captcha se queda igual
         $userCaptcha = $this->request->getPost('captcha');
         $sessionCaptcha = $session->get('captcha_word');
         if (empty($userCaptcha) || strtolower($userCaptcha) !== strtolower($sessionCaptcha)) {
@@ -36,14 +35,14 @@ class Login extends BaseController
         if ($usuario) {
             // CASO DE ÉXITO
             
-            // Construimos el nombre completo para una mejor visualización
+            // Construimos el nombre completo 
             $nombreCompleto = $usuario['Nombre'] . ' ' . $usuario['Apellido_Paterno'] . ' ' . $usuario['Apellido_Materno'];
 
             // Creamos los datos de la sesión, AÑADIENDO EL ROL
             $session_data = [
                 'id_usuario'      => $usuario['Id_usuario'],
                 'nombre_completo' => $nombreCompleto, // Usaremos este en el dashboard
-                'rol'             => $usuario['Rol'], // <-- ¡ESTA ES LA LÍNEA MÁS IMPORTANTE!
+                'rol'             => $usuario['Rol'],
                 'is_logged_in'    => TRUE
             ];
             $session->set($session_data);
@@ -59,7 +58,7 @@ class Login extends BaseController
 
     public function logout()
     {
-        session()->destroy();
+         session()->destroy();
         return redirect()->to('/login');
     }
 
