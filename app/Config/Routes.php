@@ -16,3 +16,5 @@ $routes->get('/select-year', 'Dashboard::selectYear');
 $routes->match(['get', 'post'], '/dashboard', 'Dashboard::index');
 $routes->get('/ajustes', 'Ajustes::index');
 $routes->get('/logout', 'Login::logout');
+$routes->get('/proyectos/nuevo', 'Projects::new'); 
+$routes->post('/proyectos/crear', 'Projects::create');

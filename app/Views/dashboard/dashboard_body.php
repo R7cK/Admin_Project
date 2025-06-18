@@ -43,7 +43,7 @@
                     <?php if ($userData['rol'] === 'administrador'): ?>
                         <button class="btn btn-secondary btn-custom" onclick="alert('Simulando exportación...')"><i class="fas fa-upload me-2"></i>Export</button>
                         <button class="btn btn-secondary btn-custom" onclick="alert('Simulando importación...')"><i class="fas fa-download me-2"></i>Import</button>
-                        <button class="btn btn-add btn-custom" onclick="alert('Abriendo formulario...')"><i class="fas fa-plus me-2"></i>Añadir Proyecto</button>
+                                  <a href="<?= base_url('/proyectos/nuevo') ?>" class="btn btn-add btn-custom"><i class="fas fa-plus me-2"></i>Añadir Proyecto</a>
                     <?php endif; ?>
                 </div>
                 <div class="d-flex align-items-center">

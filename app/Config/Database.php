@@ -27,10 +27,10 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => 'root',
-        'password'     => '',
+        'username'     => 'sa',
+        'password'     => 'root',
         'database'     => 'pruebas',
-        'DBDriver'     => 'MySQLi',
+        'DBDriver'     => 'SQLSRV',
         'DBPrefix'     => '',
         'pConnect'     => false,
         'DBDebug'      => true,
@@ -41,7 +41,7 @@ class Database extends Config
         'compress'     => false,
         'strictOn'     => false,
         'failover'     => [],
-        'port'         => 3306,
+        'port'         => 1433,
         'numberNative' => false,
         'foundRows'    => false,
         'dateFormat'   => [
@@ -164,11 +164,11 @@ class Database extends Config
      */
     public array $tests = [
         'DSN'         => '',
-        'hostname'    => '127.0.0.1',
-        'username'    => '',
-        'password'    => '',
+        'hostname'    => 'localhost',
+        'username'    => 'sa',
+        'password'    => 'root',
         'database'    => ':memory:',
-        'DBDriver'    => 'SQLite3',
+        'DBDriver'    => 'SQLSRV',
         'DBPrefix'    => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
         'pConnect'    => false,
         'DBDebug'     => true,
@@ -179,7 +179,7 @@ class Database extends Config
         'compress'    => false,
         'strictOn'    => false,
         'failover'    => [],
-        'port'        => 3306,
+        'port'        => 3310,
         'foreignKeys' => true,
         'busyTimeout' => 1000,
         'dateFormat'  => [
