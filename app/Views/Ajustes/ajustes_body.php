@@ -7,8 +7,8 @@
         <nav class="sidebar-nav mt-4">
             <!-- El enlace de Inicio apunta al dashboard -->
             <a href="<?= site_url('dashboard') ?>"><i class="fas fa-home"></i> INICIO</a>
-            <a href="#"><i class="fas fa-star"></i> RECURSOS</a>
-            <a href="#"><i class="fas fa-tasks"></i> TAREAS</a>
+            <a href="<?= site_url('recursos') ?>"><i class="fas fa-star"></i> RECURSOS</a>
+            <a href="<?= site_url('tareas') ?>"><i class="fas fa-tasks"></i> TAREAS</a>
             <a href="#"><i class="fas fa-clock"></i> TIEMPO</a>
             <!-- El enlace de Ajustes ahora está activo -->
             <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>

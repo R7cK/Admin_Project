@@ -4,30 +4,60 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-// El nombre de la clase debe coincidir con el nombre del archivo (PascalCase)
 class Usuario extends Model
 {
-    protected $table = 'usuario'; 
-    
-protected $allowedFields = ['Nombre', 'Apellido_Paterno', 'Apellido_Materno', 
-'Codigo_User', 'Correo', 'Password', 'rol'];
-    /**
-     * Verifica si el correo y la contraseña coinciden con un usuario en la BD.
-     * @param string $correo El correo del usuario.
-     * @param string $password La contraseña del usuario.
-     * @return mixed Retorna el objeto del usuario si la combinación es correcta, de lo contrario retorna null.
-     */
+    protected $table = 'usuario';
+    protected $allowedFields = ['Nombre', 'Apellido_Paterno', 
+    'Apellido_Materno', 'Codigo_User', 
+    'Correo', 'Password', 'rol'];
+
+    // ... (el método de login se queda igual) ...
     public function verificar_login($correo, $password)
     {
-        // Usamos el Query Builder de CI4. El método first() es más eficiente.
-        // Devuelve la primera fila que encuentra o null si no hay resultados.
         return $this->where('Correo', $correo)
-                    ->where('Password', $password) 
+                    ->where('Password', $password)
                     ->first();
     }
 
-     public function registrar_usuario($data)
+
+    /**
+     *  Registra un usuario llamando al procedimiento almacenado 'sp_RegistrarUsuario'.
+     */
+    public function registrar_usuario($data)
     {
-        return $this->insert($data);
+       
+        $sql = "EXEC dbo.sp_RegistrarUsuario ?, ?, ?, ?, ?, ?, ?";
+
+   
+        $params = [
+            $data['Nombre'],
+            $data['Apellido_Paterno'],
+            $data['Apellido_Materno'],
+            $data['Codigo_User'],
+            $data['Correo'],
+            $data['Password'],
+            $data['rol']
+        ];
+
+        // Se ejecuta consulta usando el query builder de CodeIgniter.
+        //    Pasar los parámetros como un segundo argumento es la forma segura
+        //    de prevenir inyección SQL (query binding).
+        try {
+            $this->db->query($sql, $params);
+            return true; // Si la consulta se ejecuta sin errores, devolvemos true.
+        } catch (\Exception $e) {
+            // Si el procedimiento almacenado lanza un error, lo capturamos.
+            log_message('error', 'Error al registrar usuario vía SP: ' . $e->getMessage());
+            return false; // Devolvemos false para indicar que falló.
+        }
+    }
+
+    public function getUsuariosRol($rolEquipoId)
+    {
+        // Usamos el Query Builder de CodeIgniter PENDIENTE
+        return $this->select('Id_usuario, Nombre, Apellido_Paterno, Apellido_Materno')
+                    ->where('Rol_Equipo', $rolEquipoId)
+                    ->orderBy('Nombre', 'ASC') 
+                    ->findAll(); 
     }
 }

@@ -18,3 +18,5 @@ $routes->get('/ajustes', 'Ajustes::index');
 $routes->get('/logout', 'Login::logout');
 $routes->get('/proyectos/nuevo', 'Projects::new'); 
 $routes->post('/proyectos/crear', 'Projects::create');
+$routes->get('/tareas', 'Tareas::index');
+$routes->get('/recursos', 'Recursos::index');
