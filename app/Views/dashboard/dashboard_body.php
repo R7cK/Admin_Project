@@ -8,7 +8,7 @@
             <a href="<?= site_url('dashboard') ?>" class="active"><i class="fas fa-home"></i> INICIO</a>
             <a href="<?= site_url('recursos') ?>"><i class="fas fa-star"></i> RECURSOS</a>
             <a href="<?= site_url('tareas') ?>"><i class="fas fa-tasks"></i> TAREAS</a>
-            <a href="#"><i class="fas fa-clock"></i> TIEMPO</a>
+            <a href="<?= site_url('tiempos') ?>"><i class="fas fa-clock"></i> TIEMPO</a>
             <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
         </nav>
     </div>
@@ -72,7 +72,7 @@
                                 <td><span class="badge-priority badge-<?= strtolower(esc($project['prioridad'])) ?>"><?= esc($project['prioridad']) ?></span></td>
                                 <td><?= esc($project['descripcion']) ?></td>
                                 <td><?= date('d/m/Y', strtotime($project['fecha_inicio'])) ?></td>
-                                <td><?= date('d/m/Y', strtotime($project['fecha_fin'])) ?></td>
+                                <td data-order='<?=$project["fecha_fin"]?>'><?= date('d/m/Y', strtotime($project['fecha_fin'])) ?></td>
                                 <td><span class="badge-priority badge-<?= strtolower(esc($project['status'])) ?>"><?= esc($project['status']) ?></span></td>
                                 <td class="table-actions">
                                     <a href="#" onclick="alert('Viendo detalles del proyecto <?= $project['id_proyecto'] ?>')" title="Ver Detalles"><i class="fas fa-list-alt"></i></a>

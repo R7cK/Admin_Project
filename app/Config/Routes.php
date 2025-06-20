@@ -20,3 +20,4 @@ $routes->get('/proyectos/nuevo', 'Projects::new');
 $routes->post('/proyectos/crear', 'Projects::create');
 $routes->get('/tareas', 'Tareas::index');
 $routes->get('/recursos', 'Recursos::index');
+$routes->get('/tiempos', 'Tiempos::index');

@@ -10,7 +10,7 @@
             <a href="<?= site_url('dashboard') ?>"><i class="fas fa-home"></i> INICIO</a>
             <a href="<?= site_url('recursos') ?>"><i class="fas fa-star"></i> RECURSOS</a>
             <a href="<?= site_url('tareas') ?>" class="active"><i class="fas fa-tasks"></i> TAREAS</a>
-            <a href="#"><i class="fas fa-clock"></i> TIEMPO</a>
+            <a href="<?= site_url('tiempos') ?>"><i class="fas fa-clock"></i> TIEMPO</a>
             <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
         </nav>
     </aside>
