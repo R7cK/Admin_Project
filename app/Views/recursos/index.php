@@ -2,95 +2,112 @@
 
 <?= $this->section('content') ?>
 
-<h1 class="panel-title mb-4 text-center">RECURSOS</h1>
-
-<div class="data-panel mb-4">
-    <div class="panel-header">
-        <h2 class="me-3">IDENTIFICADOR DE USUARIOS</h2>
-        <a href="#" class="btn btn-info btn-sm text-white"><i class="fas fa-plus me-1"></i> Añadir Usuario</a>
-        <div class="input-group ms-auto" style="max-width: 300px;">
-            <input type="text" class="form-control" placeholder="Buscar Usuarios...">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
-        </div>
+<div class="d-flex align-items-center mb-4">
+    <h1 class="panel-title mb-0 text-center flex-grow-1">RECURSOS</h1>
+    <div class="actions-bar">
+        <button class="btn btn-secondary btn-sm" onclick="alert('Funcionalidad no implementada')"><i class="fas fa-download me-1"></i> Download CSV</button>
+        <button class="btn btn-secondary btn-sm" onclick="alert('Funcionalidad no implementada')"><i class="fas fa-upload me-1"></i> Export</button>
+        <button class="btn btn-secondary btn-sm" onclick="alert('Funcionalidad no implementada')"><i class="fas fa-download me-1"></i> Import</button>
     </div>
-    <div class="table-responsive">
-        <table class="table align-middle">
-            <thead>
-                <tr>
-                    <th>Código Usuario</th><th colspan="2">Nombre</th><th>Tipo Usuario</th><th>Proyecto Asignado</th><th class="text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?= esc($user['codigo']) ?></td>
-                    <td style="width: 50px;"><img src="<?= base_url('assets/images/avatar.jpg'. esc($user['foto'])) ?>" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%;"></td>
-                    <td><?= esc($user['nombre']) ?></td>
-                    <td><?= esc($user['tipo']) ?></td>
-                    <td><?= esc($user['proyecto']) ?></td>
-                    <td class="text-center">
-                        <a href="#" class="btn btn-success btn-sm">Ver</a>
-                        <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
-                        <a href="#" class="btn btn-warning btn-sm text-dark">Editar</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <nav class="d-flex justify-content-center mt-3">
-        <ul class="pagination">
-            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-        </ul>
-    </nav>
 </div>
 
 <div class="data-panel">
-    <div class="panel-header">
-        <h2 class="me-3">IDENTIFICADOR DE GRUPO</h2>
-        <a href="#" class="btn btn-info btn-sm text-white"><i class="fas fa-plus me-1"></i> Añadir Grupo</a>
-        <div class="input-group ms-auto" style="max-width: 300px;">
-            <input type="text" class="form-control" placeholder="Buscar Grupo...">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
+    <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
+        
+        <div class="d-flex align-items-center gap-3">
+            <div class="btn-group" role="group">
+                <input type="radio" class="btn-check" name="resource_type" id="show_users" autocomplete="off" value="users" checked>
+                <label class="btn btn-outline-light" for="show_users">Usuarios</label>
+                <input type="radio" class="btn-check" name="resource_type" id="show_groups" autocomplete="off" value="groups">
+                <label class="btn btn-outline-light" for="show_groups">Grupos</label>
+            </div>
+            <div class="add-buttons">
+                <a href="#" class="btn btn-info btn-sm text-white"><i class="fas fa-plus me-1"></i> Añadir Usuario</a>
+                <a href="#" class="btn btn-info btn-sm text-white"><i class="fas fa-plus me-1"></i> Añadir Grupo</a>
+            </div>
+        </div>
+        
+        <div class="ms-auto d-flex flex-wrap gap-3">
+            <select class="form-select form-select-sm" id="type_filter" style="width: 200px;"></select>
+            <select class="form-select form-select-sm" id="project_filter" style="width: 250px;">
+                <option value="">Todos los Proyectos</option>
+                <?php foreach($filters['projects'] as $project): ?>
+                    <option value="<?= esc($project) ?>"><?= esc($project) ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table align-middle">
+        <table id="resources_table" class="table align-middle" style="width:100%">
             <thead>
                 <tr>
-                    <th>Código Grupo</th><th colspan="2">Nombre</th><th>Tipo Grupo</th><th>Proyecto Asignado</th><th class="text-center">Acciones</th>
+                    <th id="header_codigo">Código</th>
+                    <th style="width: 50px;">Foto</th>
+                    <th id="header_nombre">Nombre</th>
+                    <th id="header_tipo">Tipo</th>
+                    <th id="header_proyecto">Proyecto Asignado</th>
+                    <th class="text-center" style="width: 210px;">Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php foreach ($groups as $group): ?>
-                <tr>
-                    <td><?= esc($group['codigo']) ?></td>
-                    <td style="width: 50px;"><img src="<?= base_url('assets/images/avatar.png' . esc($group['foto'])) ?>" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%;"></td>
-                    <td><?= esc($group['nombre']) ?></td>
-                    <td><?= esc($group['tipo']) ?></td>
-                    <td><?= esc($group['proyecto']) ?></td>
-                    <td class="text-center">
-                        <a href="#" class="btn btn-success btn-sm">Ver</a>
-                        <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
-                        <a href="#" class="btn btn-warning btn-sm text-dark">Editar</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
-    <nav class="d-flex justify-content-center mt-3">
-        <ul class="pagination">
-            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-        </ul>
-    </nav>
 </div>
 
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    const resources = <?= json_encode($resources) ?>;
+    const filters = <?= json_encode($filters) ?>;
+
+    $(document).ready(function() {
+        let table = $('#resources_table').DataTable({
+            "pageLength": 10,
+            "dom": 't<"d-flex justify-content-center mt-3"p>',
+            "language": { "emptyTable": "No hay datos para mostrar.", "paginate": { "previous": "‹", "next": "›" } },
+            "columns": [
+                { "data": "codigo" },
+                { "data": "foto", "render": function(data) { return `<img src="<?= base_url('assets/images/') ?>${data}" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%;">`; }},
+                { "data": "nombre" }, { "data": "tipo" }, { "data": "proyecto" },
+                { "data": null, "render": function(data, type, row) {
+                    return `<div class="text-center">
+                                <a href="#" class="btn btn-success btn-sm">Ver</a>
+                                <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+                                <a href="#" class="btn btn-warning btn-sm text-dark">Editar</a>
+                            </div>`;
+                }}
+            ],
+            "columnDefs": [{ "orderable": false, "targets": [1, 5] }]
+        });
+
+        function drawTable(dataType) {
+            let dataToShow = resources[dataType];
+            let currentTypes = (dataType === 'users') ? filters.user_types : filters.group_types;
+            
+            $('#header_codigo').text(dataType === 'users' ? 'Código Usuario' : 'Código Grupo');
+            $('#header_tipo').text(dataType === 'users' ? 'Tipo Usuario' : 'Tipo Grupo');
+            
+            table.clear().rows.add(dataToShow).draw();
+
+            const typeFilter = $('#type_filter');
+            typeFilter.empty().append('<option value="">Todos los Tipos</option>');
+            currentTypes.forEach(type => { typeFilter.append(`<option value="${type}">${type}</option>`); });
+        }
+
+        $('input[name="resource_type"]').on('change', function() {
+            $('#type_filter').val('').trigger('change');
+            $('#project_filter').val('').trigger('change');
+            drawTable(this.value);
+        });
+
+        $('#type_filter').on('change', function() { table.column(3).search(this.value).draw(); });
+        $('#project_filter').on('change', function() { table.column(4).search(this.value).draw(); });
+
+        drawTable('users');
+    });
+</script>
 <?= $this->endSection() ?>
