@@ -21,3 +21,21 @@ $routes->post('/proyectos/crear', 'Projects::create');
 $routes->get('/tareas', 'Tareas::index');
 $routes->get('/recursos', 'Recursos::index');
 $routes->get('/tiempos', 'Tiempos::index');
+// En app/Config/Routes.php
+
+$routes->group('catalogos', ['filter' => 'auth'], function($routes) {
+    // La página principal de selección de catálogos
+    $routes->get('/', 'Catalogos::index');
+    
+    // La página que muestra la lista de un catálogo específico
+    $routes->get('list/(:segment)', 'Catalogos::list/$1');
+    
+    // Rutas para las acciones AJAX (Crear, Actualizar, Eliminar)
+    $routes->post('create/(:segment)', 'Catalogos::create/$1');
+    $routes->post('update/(:segment)/(:num)', 'Catalogos::update/$1/$2');
+    $routes->post('delete/(:segment)/(:num)', 'Catalogos::delete/$1/$2');
+});
+$routes->get('/ajustes', 'Ajustes::index');
+$routes->get('/ajustes/generales', 'Ajustes::generales');
+$routes->get('/ajustes/usuarios', 'Ajustes::usuarios');
+$routes->get('/ajustes/masterdata', 'Ajustes::masterData');

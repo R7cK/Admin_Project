@@ -39,10 +39,10 @@
             <!-- CONTENIDO ESPECÍFICO DE LA PÁGINA DE AJUSTES -->
             <div class="container-fluid">
                 <div class="row g-4">
-                    <div class="col-12 col-md-6 col-lg-6"><a href="#" class="settings-card"><i class="icon fas fa-database"></i><span class="title">Master Data</span></a></div>
-                    <div class="col-12 col-md-6 col-lg-6"><a href="#" class="settings-card"><i class="icon fas fa-sliders-h"></i><span class="title">Configuración general</span></a></div>
-                    <div class="col-12 col-md-6 col-lg-6"><a href="#" class="settings-card"><i class="icon fas fa-users"></i><span class="title">Usuarios</span></a></div>
-                    <div class="col-12 col-md-6 col-lg-6"><a href="#" class="settings-card"><i class="icon fas fa-folder"></i><span class="title">Catálogos</span></a></div>
+                    <div class="col-12 col-md-6 col-lg-6"><a href="<?= site_url('/ajustes/masterdata') ?>" class="settings-card"><i class="icon fas fa-database"></i><span class="title">Master Data</span></a></div>
+                    <div class="col-12 col-md-6 col-lg-6"><a href="<?= site_url('ajustes/generales') ?>" class="settings-card"><i class="icon fas fa-sliders-h"></i><span class="title">Configuración general</span></a></div>
+                    <div class="col-12 col-md-6 col-lg-6"><a href="<?= site_url('ajustes/usuarios') ?>" class="settings-card"><i class="icon fas fa-users-cog"></i><span>Usuarios</span></a></div>
+                    <div class="col-12 col-md-6 col-lg-6"><a href="<?= site_url('catalogos') ?>" class="settings-card"><i class="icon fas fa-folder"></i><span class="title">Catálogos</span></a></div>
                 </div>
             </div>
             <!-- FIN DEL CONTENIDO ESPECÍFICO -->
