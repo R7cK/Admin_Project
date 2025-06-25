@@ -6,47 +6,43 @@ class Recursos extends BaseController
 {
     public function index()
     {
-        $users = [
-            ['id' => 1, 'codigo' => '12456', 'foto' => 'avatar.png', 'nombre' => 'Lizandra Villanueva', 'tipo' => 'Manager', 'proyecto' => 'Actualización ERP junio 2025'],
-            ['id' => 2, 'codigo' => '94621', 'foto' => 'avatar.png', 'nombre' => 'Antonio Banderas', 'tipo' => 'Administrador', 'proyecto' => 'Actualización ERP junio 2025'],
-            ['id' => 3, 'codigo' => '972513', 'foto' => 'avatar.png', 'nombre' => 'Marina Escalante', 'tipo' => 'Manager', 'proyecto' => 'Creación módulo ventas'],
-            ['id' => 4, 'codigo' => '847291', 'foto' => 'avatar.png', 'nombre' => 'Eugenia Turron', 'tipo' => 'Administrador', 'proyecto' => 'Creación módulo ventas'],
-            ['id' => 5, 'codigo' => '638125', 'foto' => 'avatar.png', 'nombre' => 'America Suicune', 'tipo' => 'Usuario', 'proyecto' => 'Creación módulo ventas'],
-            ['id' => 6, 'codigo' => '11223', 'foto' => 'avatar.png', 'nombre' => 'Juan Pérez', 'tipo' => 'Usuario', 'proyecto' => 'Soporte Técnico Interno'],
-            ['id' => 7, 'codigo' => '44556', 'foto' => 'avatar.png', 'nombre' => 'Ana García', 'tipo' => 'Manager', 'proyecto' => 'Soporte Técnico Interno'],
-            ['id' => 8, 'codigo' => '77889', 'foto' => 'avatar.png', 'nombre' => 'Carlos Rodriguez', 'tipo' => 'Administrador', 'proyecto' => 'Actualización ERP junio 2025'],
-            ['id' => 9, 'codigo' => '15975', 'foto' => 'avatar.png', 'nombre' => 'Laura Martinez', 'tipo' => 'Usuario', 'proyecto' => 'Creación módulo ventas'],
-            ['id' => 10, 'codigo' => '35715', 'foto' => 'avatar.png', 'nombre' => 'Sofía Hernandez', 'tipo' => 'Manager', 'proyecto' => 'Actualización ERP junio 2025'],
-            ['id' => 11, 'codigo' => '95135', 'foto' => 'avatar.png', 'nombre' => 'David López', 'tipo' => 'Usuario', 'proyecto' => 'Soporte Técnico Interno'],
-        ];
+        $session = session();
+        if (!$session->get('is_logged_in')) {
+            return redirect()->to('/login');
+        }
 
-        $groups = [
-            ['id' => 1, 'codigo' => '00001', 'foto' => 'avatar.png', 'nombre' => 'Los Uhum!Server', 'tipo' => 'Servidor', 'proyecto' => 'Actualización ERP junio 2025'],
-            ['id' => 2, 'codigo' => '00002', 'foto' => 'avatar.png', 'nombre' => 'Grupo de Administradores', 'tipo' => 'Administración', 'proyecto' => 'Actualización de base de datos'],
-            ['id' => 3, 'codigo' => '00003', 'foto' => 'avatar.png', 'nombre' => 'Equipo de Desarrollo Frontend', 'tipo' => 'Desarrollo', 'proyecto' => 'Creación módulo ventas'],
-            ['id' => 4, 'codigo' => '00004', 'foto' => 'avatar.png', 'nombre' => 'Mesa de Ayuda Nivel 1', 'tipo' => 'Soporte', 'proyecto' => 'Soporte Técnico Interno'],
-            ['id' => 5, 'codigo' => '00005', 'foto' => 'avatar.png', 'nombre' => 'Infraestructura Cloud', 'tipo' => 'Servidor', 'proyecto' => 'Actualización ERP junio 2025'],
-        ];
+        $defaults = ['default_theme' => 'light']; 
+        $settings = $session->get('general_settings') ?? $defaults;
         
-        // Preparamos los datos para los filtros
-        $data['user_types'] = array_unique(array_column($users, 'tipo'));
-        $data['group_types'] = array_unique(array_column($groups, 'tipo'));
-        $data['projects'] = array_unique(array_merge(array_column($users, 'proyecto'), array_column($groups, 'proyecto')));
-        sort($data['projects']);
+        $users = [
+            ['id' => 1, 'codigo' => '12456', 'foto' => 'avatar.png', 'nombre' => 'Lizandra Villanueva', 'email' => 'lizandra@mail.com', 'rol' => 'Manager', 'estado' => 'Activo', 'fecha_registro' => '2025-01-15'],
+            ['id' => 2, 'codigo' => '94621', 'foto' => 'avatar.png', 'nombre' => 'Antonio Banderas', 'email' => 'antonio@mail.com', 'rol' => 'Administrador', 'estado' => 'Activo', 'fecha_registro' => '2025-02-20'],
+            ['id' => 3, 'codigo' => '972513', 'foto' => 'avatar.png', 'nombre' => 'Marina Escalante', 'email' => 'marina@mail.com', 'rol' => 'Manager', 'estado' => 'Inactivo', 'fecha_registro' => '2025-03-10'],
+            ['id' => 4, 'codigo' => '847291', 'foto' => 'avatar.png', 'nombre' => 'Eugenia Turron', 'email' => 'eugenia@mail.com', 'rol' => 'Administrador', 'estado' => 'Activo', 'fecha_registro' => '2024-12-05'],
+            ['id' => 5, 'codigo' => '638125', 'foto' => 'avatar.png', 'nombre' => 'America Suicune', 'email' => 'america@mail.com', 'rol' => 'Usuario', 'estado' => 'Activo', 'fecha_registro' => '2025-04-01'],
+        ];
+        $groups = [
+            ['id' => 1, 'codigo' => 'GRP-001', 'nombre' => 'Equipo de Desarrollo', 'miembros' => 5, 'lider' => 'Lizandra Villanueva', 'tipo' => 'Desarrollo'],
+            ['id' => 2, 'codigo' => 'GRP-002', 'nombre' => 'Administración de Sistemas', 'miembros' => 3, 'lider' => 'Antonio Banderas', 'tipo' => 'Soporte'],
+            ['id' => 3, 'codigo' => 'GRP-003', 'nombre' => 'Infraestructura Cloud', 'miembros' => 4, 'lider' => 'Ana García', 'tipo' => 'Servidor'],
+        ];
 
-        // Creamos una estructura de datos más clara para pasar a la vista
-        $data_to_view = [
+        // Unificamos todos los datos para la vista
+        $data = [
+            'settings'  => $settings,
+            'userData'  => $session->get('userData'),
             'resources' => [
                 'users'  => $users,
                 'groups' => $groups
             ],
             'filters' => [
-                'user_types'  => array_values($data['user_types']),
-                'group_types' => array_values($data['group_types']),
-                'projects'    => $data['projects']
+                'user_types'  => array_values(array_unique(array_column($users, 'rol'))),
+                'group_types' => array_values(array_unique(array_column($groups, 'tipo'))), // Corregido para que tome los tipos de grupo
+                'estados'     => array_values(array_unique(array_column($users, 'estado'))),
+                'projects'    => [] // No aplica en esta vista, lo dejamos vacío
             ]
         ];
         
-        return view('recursos/index', $data_to_view);
+        return view('recursos/index', $data);
     }
 }

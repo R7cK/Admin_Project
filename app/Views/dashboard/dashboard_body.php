@@ -8,7 +8,6 @@
             <a href="<?= site_url('dashboard') ?>" class="active"><i class="fas fa-home"></i> INICIO</a>
             <a href="<?= site_url('recursos') ?>"><i class="fas fa-star"></i> RECURSOS</a>
             <a href="<?= site_url('tareas') ?>"><i class="fas fa-tasks"></i> TAREAS</a>
-            <a href="<?= site_url('tiempos') ?>"><i class="fas fa-clock"></i> TIEMPO</a>
             <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
         </nav>
     </div>
@@ -26,7 +25,7 @@
                     <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
                 </div>
                 <div class="user-profile">
-                    <i class="fas fa-bell"></i><i class="fas fa-envelope"></i>
+                    <br>
                     <img src="https://i.pravatar.cc/40?u=<?= esc($userData['id']) ?>" alt="User Avatar">
                     <div class="user-info">
                         <strong><?= esc($userData['nombre']) ?></strong><br>
@@ -71,15 +70,29 @@
                                 <td><?= esc($project['nombre']) ?></td>
                                 <td><span class="badge-priority badge-<?= strtolower(esc($project['prioridad'])) ?>"><?= esc($project['prioridad']) ?></span></td>
                                 <td><?= esc($project['descripcion']) ?></td>
-                                <td><?= date('d/m/Y', strtotime($project['fecha_inicio'])) ?></td>
+                                <td data-order='<?=$project["fecha_inicio"]?>'><?= date('d/m/Y', strtotime($project['fecha_inicio'])) ?></td>
                                 <td data-order='<?=$project["fecha_fin"]?>'><?= date('d/m/Y', strtotime($project['fecha_fin'])) ?></td>
                                 <td><span class="badge-priority badge-<?= strtolower(esc($project['status'])) ?>"><?= esc($project['status']) ?></span></td>
                                 <td class="table-actions">
-                                    <a href="#" onclick="alert('Viendo detalles del proyecto <?= $project['id_proyecto'] ?>')" title="Ver Detalles"><i class="fas fa-list-alt"></i></a>
-                                    <?php if ($userData['rol'] === 'administrador'): ?>
-                                        <a href="#" onclick="alert('Editando el proyecto <?= $project['id_proyecto'] ?>')" title="Editar Proyecto"><i class="fas fa-pencil-alt"></i></a>
-                                    <?php endif; ?>
-                                </td>
+                                <!-- Sección de acciones-->
+                                 <!-- Ver detalles de proyecto-->
+                                <a href="#" onclick="..." title="Ver Detalles"><i class="fas fa-list-alt"></i></a>
+                                
+                                <!-- Añadir Tareas -->
+                                <a href="#" onclick="alert('Añadiendo tareas al proyecto <?= $project['id_proyecto'] ?>')" title="Añadir Tareas">
+                                    <i class="fas fa-plus-circle"></i>
+                                </a>
+                                
+                                <!-- Añadir Usuarios -->
+                                <a href="#" onclick="alert('Añadiendo usuarios al proyecto <?= $project['id_proyecto'] ?>')" title="Añadir Usuarios">
+                                    <i class="fas fa-user-plus"></i>
+                                </a>
+                                
+                                <!-- Editar proyecto (solo administradores) -->
+                                <?php if ($userData['rol'] === 'administrador'): ?>
+                                    <a href="#" onclick="..." title="Editar Proyecto"><i class="fas fa-pencil-alt"></i></a>
+                                <?php endif; ?>
+                            </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

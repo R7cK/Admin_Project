@@ -1,5 +1,5 @@
-<body>
-
+<body class="<?= ($settings['default_theme'] ?? 'light') === 'dark' ? 'theme-dark' : 'theme-light' ?>">
+    
 <!-- Sidebar para pantallas grandes (visible en lg y superior) -->
 <div class="main-container">
     <div class="sidebar d-none d-lg-block">
@@ -9,7 +9,6 @@
             <a href="<?= site_url('dashboard') ?>"><i class="fas fa-home"></i> INICIO</a>
             <a href="<?= site_url('recursos') ?>"><i class="fas fa-star"></i> RECURSOS</a>
             <a href="<?= site_url('tareas') ?>"><i class="fas fa-tasks"></i> TAREAS</a>
-            <a href="#"><i class="fas fa-clock"></i> TIEMPO</a>
             <!-- El enlace de Ajustes ahora está activo -->
             <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
         </nav>
@@ -62,7 +61,6 @@
             <a href="<?= site_url('dashboard') ?>"><i class="fas fa-home"></i> INICIO</a>
             <a href="#"><i class="fas fa-star"></i> RECURSOS</a>
             <a href="#"><i class="fas fa-tasks"></i> TAREAS</a>
-            <a href="#"><i class="fas fa-calendar-alt"></i> CALENDARIO</a>
            <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
         </nav>
     </div>

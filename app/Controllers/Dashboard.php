@@ -16,45 +16,47 @@ class Dashboard extends BaseController
         if (!$session->get('is_logged_in')) {
             return redirect()->to('/login');
         }
-        $data['nombre'] = $session->get('nombre_completo');
+
+        // ===== AÑADIDO: Lógica para leer el tema guardado =====
+        $defaults = ['default_theme' => 'light']; // Tema por defecto
+        $settings = $session->get('general_settings') ?? $defaults;
+
+        // Añadimos los settings a los datos que se pasan a la vista
+        $data = [
+            'nombre'   => $session->get('nombre_completo'),
+            'settings' => $settings, // La pieza que faltaba
+            'userData' => $session->get('userData') // Pasamos también userData por consistencia
+        ];
+        
         $show_year=view('select_year_view/select_year_view_header.php', $data);
         $show_year.=view('select_year_view/select_year_view_body.php', $data);
         $show_year.=view('select_year_view/select_year_view_footer.php', $data);
         return $show_year;
     }
+
     /**
      * Muestra el dashboard principal.
-     * Ahora es capaz de obtener el año desde un POST (inicial) o un GET (cambio de periodo).
      */
     public function index()
     {
-       $session = session();
+        $session = session();
 
-    if (!$session->get('is_logged_in')) {
-        return redirect()->to('/login');
-    }
+        if (!$session->get('is_logged_in')) {
+            return redirect()->to('/login');
+        }
 
-    // ----- LÓGICA MEJORADA Y DEFINITIVA PARA OBTENER EL AÑO -----
+        $yearFromRequest = $this->request->getVar('anio');
+        if ($yearFromRequest) {
+            $selectedYear = $yearFromRequest;
+            $session->set('selected_year', $selectedYear);
+        } else {
+            $selectedYear = $session->get('selected_year');
+        }
 
-    // Usamos getVar() que busca tanto en POST como en GET.
-    $yearFromRequest = $this->request->getVar('anio');
-
-    if ($yearFromRequest) {
-        // PRIORIDAD 1: El usuario seleccionó un año activamente.
-        // Usamos este año y lo guardamos en la sesión para futuras navegaciones.
-        $selectedYear = $yearFromRequest;
-        $session->set('selected_year', $selectedYear);
-    } else {
-        // PRIORIDAD 2: No hay selección activa, buscamos en la sesión.
-        $selectedYear = $session->get('selected_year');
-    }
-
-    // Si después de todo no tenemos un año, es el primer acceso.
-    if (!$selectedYear) {
-        return redirect()->to('/select-year');
-    }
-        // ------------------------------------------------
-
+        if (!$selectedYear) {
+            return redirect()->to('/select-year');
+        }
+        
         $userData = [
             'id'     => $session->get('id_usuario'),
             'nombre' => $session->get('nombre_completo'),
@@ -70,10 +72,16 @@ class Dashboard extends BaseController
             $proyectos = $query->where('id_usuario_asignado', $userData['id'])->findAll();
         }
         
+        // ===== AÑADIDO: Lógica para leer el tema guardado =====
+        $defaults = ['default_theme' => 'light']; // Tema por defecto
+        $settings = $session->get('general_settings') ?? $defaults;
+        
+        // Unificamos todos los datos que la vista necesita
         $data = [
             'userData'     => $userData,
             'proyectos'    => $proyectos,
-            'selectedYear' => $selectedYear // Pasamos el año a la vista para el dropdown
+            'selectedYear' => $selectedYear,
+            'settings'     => $settings // La pieza que faltaba
         ];
         
         $show_dashboard=view('dashboard/dashboard_header.php', $data);

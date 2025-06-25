@@ -19,6 +19,7 @@ $routes->get('/logout', 'Login::logout');
 $routes->get('/proyectos/nuevo', 'Projects::new'); 
 $routes->post('/proyectos/crear', 'Projects::create');
 $routes->get('/tareas', 'Tareas::index');
+$routes->post('/tareas/crear', 'Tareas::crear');
 $routes->get('/recursos', 'Recursos::index');
 $routes->get('/tiempos', 'Tiempos::index');
 // En app/Config/Routes.php
@@ -39,3 +40,6 @@ $routes->get('/ajustes', 'Ajustes::index');
 $routes->get('/ajustes/generales', 'Ajustes::generales');
 $routes->get('/ajustes/usuarios', 'Ajustes::usuarios');
 $routes->get('/ajustes/masterdata', 'Ajustes::masterData');
+
+// Routes especificas para la funcionalidad (NO CONECTADOS A LA BD)
+$routes->post('/ajustes/generales/guardar', 'Ajustes::guardarGenerales');
