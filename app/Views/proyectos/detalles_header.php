@@ -8,7 +8,6 @@
     <!-- Assets de CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -58,9 +57,35 @@
         .pagination .page-item .page-link { background-color: var(--panel-light-bg); border: none; color: var(--text-light); margin: 0 3px; border-radius: 5px; } 
         .pagination .page-item.active .page-link { background-color: var(--brand-purple); } 
         .pagination .page-item.disabled .page-link { background-color: #3a3a4a; color: #6c757d; }
-        .dt-buttons .btn {
-    background-color: #6c757d !important; /* Mismo color que los otros botones */
-    border-radius: 8px !important;
-    font-weight: 500;}
+    
+                /* ========================================================= */
+        /* ===== ESTILOS CORREGIDOS PARA MODALES EN TEMA OSCURO ===== */
+        /* ========================================================= */
+
+        /* Se activa solo cuando el body tiene la clase 'theme-dark' */
+        body.theme-dark .modal-content {
+            background-color: var(--panel-bg); /* Fondo del panel oscuro */
+            color: var(--main-text); /* Texto principal claro */
+            border: 1px solid var(--border-color);
+        }
+
+        body.theme-dark .modal-header {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.theme-dark .modal-footer {
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Cambia el color del botón 'x' para cerrar el modal */
+        body.theme-dark .btn-close {
+            filter: invert(1) grayscale(100) brightness(200%);
+        }
+
+        /* Y nos aseguramos de que las etiquetas dentro del modal oscuro sean claras */
+        body.theme-dark .modal-body .form-label {
+            color: var(--main-text) !important;
+        }
+        /** richie */
     </style>
 </head>

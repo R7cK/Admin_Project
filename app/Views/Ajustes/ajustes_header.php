@@ -10,23 +10,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* ================================================================== */
-        /* ===== INICIO DEL BLOQUE DE ESTILOS DINÁMICOS ===== */
+    /* ================================================================== */
+        /* ===== DEFINICIÓN DE TEMAS DINÁMICOS (CLARO Y OSCURO) ===== */
         /* ================================================================== */
         
         /* Define las variables para el Tema Claro (por defecto) */
         :root {
             --body-bg: #f0f2f5;
             --panel-bg: #ffffff;
-            --sidebar-bg: #ffffff;
+            --sidebar-bg: #ffffff; 
+            --sidebar-text:rgb(0, 0, 0);
             --sidebar-header-text: #212529;
-            --sidebar-text: #495057;
             --sidebar-hover-bg: #e9ecef;
-            --main-text: #212529;
-            --secondary-text: #6c757d;
+            --main-text: #212529; /* Texto principal oscuro para fondos claros */
+            --secondary-text:rgb(0, 0, 0);
             --border-color: #dee2e6;
             --form-input-bg: #ffffff;
             --form-input-text: #212529;
+            --table-light-bg: #ffffff;
+            --table-light-text: #212529;
             --brand-purple: #8e44ad; 
             --accent-yellow: #ffc107;
         }
@@ -39,13 +41,12 @@
             --sidebar-header-text: #ffffff;
             --sidebar-text: #a0a0b0;
             --sidebar-hover-bg: #20202d;
-            --main-text: #e0e0e0;
+            --main-text: #e0e0e0; 
             --secondary-text: #a0a0b0;
             --border-color: #4a4a6a;
             --form-input-bg: #4a4a6a;
             --form-input-text: #e0e0e0;
         }
-
         /* --- Estilos Generales que usan las variables --- */
         body { 
             background-color: var(--body-bg); 
@@ -59,12 +60,18 @@
         /* Sidebar */
         .sidebar { width: 220px; background-color: var(--sidebar-bg); padding: 20px 0; flex-shrink: 0; border-right: 1px solid var(--border-color); }
         .sidebar-header { padding: 0 20px 20px 20px; font-weight: 600; font-size: 1.2rem; color: var(--sidebar-header-text); text-align: center; }
-        .sidebar-nav a { display: flex; align-items: center; padding: 12px 20px; color: var(--sidebar-text); text-decoration: none; font-weight: 500; } 
-        .sidebar-nav a:hover { background-color: var(--sidebar-hover-bg); color: var(--brand-purple); }
+        .sidebar-nav a { display: flex; align-items: center; padding: 12px 20px; color: var(--text-muted); text-decoration: none; transition: all 0.3s ease; font-weight: 500; } 
+        .sidebar-nav a:hover, .sidebar-nav a.active { background-color: var(--brand-purple); color: #fff; border-radius: 0 30px 30px 0; margin-left: -1px; } 
         .sidebar-nav a.active { background-color: var(--brand-purple); color: #fff !important; border-radius: 0 30px 30px 0; margin-left: -1px; }
         .sidebar-nav a.active i, .sidebar-nav a.active:hover { color: #fff; }
         .sidebar-nav a i { margin-right: 15px; width: 20px; text-align: center; }
         
+        .badge-priority { padding: 6px 15px; border-radius: 20px; color: #fff; font-weight: 500; min-width: 90px; text-align: center; } .badge-normal { background-color: var(--accent-green); } .badge-media { background-color: var(--accent-yellow); color: #333; } .badge-alta { background-color: var(--accent-red); } .badge-activo { background-color: var(--accent-green); } .badge-pendiente { background-color: var(--accent-teal); } .badge-atrasado { background-color: var(--accent-red); } .table-actions a { color: var(--text-muted); font-size: 1.2rem; margin: 0 5px; }
+        .pagination { justify-content: center; margin-top: 20px; } 
+        .pagination .page-item .page-link { background-color: var(--panel-light-bg); border: none; color: var(--text-light); margin: 0 3px; border-radius: 5px; } 
+        .pagination .page-item.active .page-link { background-color: var(--brand-purple); } 
+        .pagination .page-item.disabled .page-link { background-color: #3a3a4a; color: #6c757d; }
+
         /* Contenido y Formularios */
         .offcanvas { background-color: var(--sidebar-bg); }
         .main-panel, .data-panel { background-color: var(--panel-bg); border-radius: 20px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); } 

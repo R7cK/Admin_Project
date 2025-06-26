@@ -7,8 +7,8 @@
         <nav class="sidebar-nav mt-4">
             <!-- El enlace de Inicio apunta al dashboard -->
             <a href="<?= site_url('dashboard') ?>"><i class="fas fa-home"></i> INICIO</a>
-            <a href="<?= site_url('recursos') ?>"><i class="fas fa-star"></i> RECURSOS</a>
-            <a href="<?= site_url('tareas') ?>"><i class="fas fa-tasks"></i> TAREAS</a>
+            <!--<a href="<?= site_url('recursos') ?>"><i class="fas fa-star"></i> RECURSOS</a> -->
+            <!--<a href="<?= site_url('tareas') ?>"><i class="fas fa-tasks"></i> TAREAS</a> -->
             <!-- El enlace de Ajustes ahora está activo -->
             <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
         </nav>
@@ -50,6 +50,7 @@
     </div>
 </div>
 
+
 <!-- Offcanvas Sidebar para pantallas pequeñas -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
     <div class="offcanvas-header">
@@ -59,8 +60,6 @@
     <div class="offcanvas-body">
         <nav class="sidebar-nav">
             <a href="<?= site_url('dashboard') ?>"><i class="fas fa-home"></i> INICIO</a>
-            <a href="#"><i class="fas fa-star"></i> RECURSOS</a>
-            <a href="#"><i class="fas fa-tasks"></i> TAREAS</a>
            <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
         </nav>
     </div>

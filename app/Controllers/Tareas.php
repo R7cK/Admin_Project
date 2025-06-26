@@ -39,30 +39,111 @@ class Tareas extends BaseController
     /**
      * Procesa los datos del nuevo formulario detallado.
      */
-    public function crear()
+    public function ajax_crear()
     {
-        $session = session();
+        // Solo permitir peticiones AJAX
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(403, 'Forbidden');
+        }
+
+        // Validación (puedes hacerla más robusta con las reglas de CI4)
+        $val = $this->validate([
+            'tar_nom' => 'required|min_length[5]',
+            'criterio_desc' => 'required'
+        ]);
+        if (!$val) {
+             return $this->response->setJSON(['status' => 'error', 'message' => 'El nombre de la tarea es obligatorio.']);
+        }
+
+        $tareaModel = new TareaModel();
+        $criterioModel = new CriterioModel();
         
-        // ===== MODIFICACIÓN: Recogemos todos los nuevos campos del formulario =====
-        $newTask = [
-            'nombre'       => $this->request->getPost('nombre_tarea'),
-            'descripcion'  => $this->request->getPost('descripcion'),
-            'solicitante'  => $this->request->getPost('puesto_solicitante'),
-            'fecha_registro' => $this->request->getPost('fecha_registro'),
-            'urgencia'     => $this->request->getPost('nivel_urgencia'),
-            'complejidad'  => $this->request->getPost('nivel_complejidad'),
-            'seguimiento'  => $this->request->getPost('notas_seguimiento'),
-            'pruebas'      => $this->request->getPost('bitacora_pruebas'),
-            // Asignamos valores por defecto para los campos de la tabla principal
-            'asignado_a'   => '(Sin Asignar)', // Lo puedes cambiar por un campo del form si quieres
-            'fecha_limite' => $this->request->getPost('fecha_registro'), // Usamos la fecha de registro como límite inicial
-            'estado'       => 'Pendiente' // Todas las tareas nuevas empiezan como pendientes
-        ];
+        $db = \Config\Database::connect();
+        $db->transStart();
 
-        $tasks = $session->get('project_tasks') ?? [];
-        array_unshift($tasks, $newTask);
-        $session->set('project_tasks', $tasks);
+        // 1. Crear la tarea principal
+        $idTarea = $tareaModel->insert([
+            'tar_nom' => $this->request->getPost('tar_nom'),
+            'tar_desc' => $this->request->getPost('tar_desc'),
+            'solicitado_por_usuario_id' => $this->request->getPost('solicitado_por_usuario_id'),
+            'fecha_creacion' => $this->request->getPost('fecha_creacion'),
+            // ... otros campos
+        ]);
 
-        return redirect()->to('/tareas');
+        // 2. Crear el primer criterio asociado a la tarea
+        $idCriterio = $criterioModel->insert([
+            'tarea_id' => $idTarea,
+            'descripcion' => $this->request->getPost('criterio_desc'),
+            'puntos' => $this->request->getPost('criterio_puntos')
+        ]);
+        
+        $db->transComplete();
+        
+        if ($db->transStatus() === false) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'No se pudo guardar en la base de datos.']);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Tarea creada.',
+            'tarea_id' => $idTarea,
+            'criterio_id' => $idCriterio
+        ]);
     }
+
+    /**
+     * AJAX: Agrega un nuevo criterio a una tarea existente.
+     */
+    public function ajax_agregar_criterio()
+    {
+        if (!$this->request->isAJAX()) { return $this->response->setStatusCode(403); }
+
+        $criterioModel = new CriterioModel();
+        $idCriterio = $criterioModel->insert([
+            'tarea_id' => $this->request->getPost('tarea_id'),
+            'descripcion' => $this->request->getPost('criterio_desc'),
+            'puntos' => $this->request->getPost('criterio_puntos')
+        ]);
+
+        if ($idCriterio) {
+            return $this->response->setJSON(['status' => 'success', 'criterio_id' => $idCriterio]);
+        }
+        return $this->response->setJSON(['status' => 'error', 'message' => 'No se pudo agregar el criterio.']);
+    }
+
+    /**
+     * AJAX: Actualiza la descripción de un criterio existente.
+     */
+    public function ajax_actualizar_criterio()
+    {
+        if (!$this->request->isAJAX()) { return $this->response->setStatusCode(403); }
+
+        $criterioModel = new CriterioModel();
+        $id = $this->request->getPost('criterio_id');
+        $descripcion = $this->request->getPost('descripcion');
+
+        if ($criterioModel->update($id, ['descripcion' => $descripcion])) {
+            return $this->response->setJSON(['status' => 'success']);
+        }
+        return $this->response->setJSON(['status' => 'error', 'message' => 'No se pudo actualizar.']);
+    }
+    
+    /**
+     * AJAX: Elimina un criterio.
+     */
+    public function ajax_eliminar_criterio()
+    {
+        if (!$this->request->isAJAX()) { return $this->response->setStatusCode(403); }
+        
+        // Recibimos JSON en lugar de form-data
+        $data = $this->request->getJSON();
+        $id = $data->criterio_id;
+
+        $criterioModel = new CriterioModel();
+        if ($criterioModel->delete($id)) {
+            return $this->response->setJSON(['status' => 'success']);
+        }
+        return $this->response->setJSON(['status' => 'error', 'message' => 'No se pudo eliminar.']);
+    }
+
 }
