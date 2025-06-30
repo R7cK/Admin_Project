@@ -69,3 +69,8 @@ $routes->get('/ajustes', 'Ajustes::index');
 $routes->get('/ajustes/generales', 'Ajustes::generales');
 $routes->get('/ajustes/usuarios', 'Ajustes::usuarios');
 $routes->post('/proyectos/update', 'Proyectos::update');
+$routes->post('tareas/ajax_gestionar_tarea_criterio', 'Tareas::ajax_gestionar_tarea_criterio');
+
+// Y también para las otras rutas AJAX que usas
+$routes->post('tareas/ajax_actualizar_criterio', 'Tareas::ajax_actualizar_criterio');
+$routes->post('tareas/ajax_eliminar_criterio', 'Tareas::ajax_eliminar_criterio');
