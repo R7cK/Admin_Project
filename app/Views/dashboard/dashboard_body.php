@@ -1,18 +1,17 @@
-
-<body>
+<body class="<?= ($settings['default_theme'] ?? 'dark') === 'dark' ? 'theme-dark' : 'theme-light' ?>">
 
 <div class="main-container">
     <div class="sidebar d-none d-lg-block">
-        <h5 class="text-center text-white my-3">AdminProject</h5>
+          <h5 class="text-center text my-3">AdminProject</h5>
         <nav class="sidebar-nav mt-4">
-            <a href="<?= site_url('dashboard') ?>" class="active"><i class="fas fa-home"></i> INICIO</a>
-            <a href="<?= site_url('settings') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
+            <a href="<?= site_url('dashboard') ?>"><i class="fas fa-home"></i> INICIO</a>
+            <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
         </nav>
     </div>
 
     <div class="content-wrapper">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <button class="btn btn-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas"><i class="fas fa-bars"></i></button>
+             <button class="btn btn-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas"><i class="fas fa-bars"></i></button>
             <h4 class="text-center py-3 m-0 flex-grow-1"><?= ($userData['rol'] === 'administrador') ? 'PANEL DE ADMINISTRADOR' : 'MIS PROYECTOS' ?></h4>
         </div>
 
@@ -94,7 +93,8 @@
 </div>
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
-    <!-- ... Contenido del offcanvas ... -->
+    <div class="offcanvas-header"><h5 class="offcanvas-title" id="sidebarOffcanvasLabel">AdminProject</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
+    <div class="offcanvas-body"><nav class="sidebar-nav"><a href="<?= site_url('dashboard') ?>" class="active"><i class="fas fa-home"></i> INICIO</a><a href="<?= site_url('ajustes') ?>"> <i class="fas fa-cog"></i> AJUSTES</a></nav></div>
 </div>
 
 <!-- INICIO DEL MODAL DE EDICIÓN -->
@@ -106,29 +106,58 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editProjectForm">
+                <form id="editProjectForm" onsubmit="return false;">
+                    <!-- Campo oculto para guardar el ID -->
                     <input type="hidden" id="editProjectId">
+
+                    <!-- Nombre del Proyecto -->
                     <div class="mb-3">
                         <label for="editProjectName" class="form-label">Nombre del Proyecto</label>
                         <input type="text" class="form-control" id="editProjectName" required>
                     </div>
+
+                    <!-- Descripción -->
                     <div class="mb-3">
                         <label for="editProjectDescription" class="form-label">Descripción</label>
                         <textarea class="form-control" id="editProjectDescription" rows="3"></textarea>
                     </div>
+
+                    <!-- Fila para Prioridad y Status -->
                     <div class="row">
-                        <div class="col-md-6 mb-3"><label for="editProjectPriority" class="form-label">Prioridad</label><select class="form-select" id="editProjectPriority"><option value="Normal">Normal</option><option value="Media">Media</option><option value="Alta">Alta</option></select></div>
-                        <div class="col-md-6 mb-3"><label for="editProjectStatus" class="form-label">Status</label><select class="form-select" id="editProjectStatus"><option value="Activo">Activo</option><option value="Pendiente">Pendiente</option><option value="Atrasado">Atrasado</option></select></div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editProjectPriority" class="form-label">Prioridad</label>
+                            <select class="form-select" id="editProjectPriority">
+                                <option value="Normal">Normal</option>
+                                <option value="Media">Media</option>
+                                <option value="Alta">Alta</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editProjectStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editProjectStatus">
+                                <option value="Activo">Activo</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Atrasado">Atrasado</option>
+                            </select>
+                        </div>
                     </div>
+
+                    <!-- Fila para Fechas -->
                     <div class="row">
-                        <div class="col-md-6 mb-3"><label for="editProjectStartDate" class="form-label">Fecha Inicio</label><input type="date" class="form-control" id="editProjectStartDate"></div>
-                        <div class="col-md-6 mb-3"><label for="editProjectEndDate" class="form-label">Fecha Fin</label><input type="date" class="form-control" id="editProjectEndDate"></div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editProjectStartDate" class="form-label">Fecha Inicio</label>
+                            <input type="date" class="form-control" id="editProjectStartDate">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editProjectEndDate" class="form-label">Fecha Fin</label>
+                            <input type="date" class="form-control" id="editProjectEndDate">
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="saveChangesBtn" style="background-color: var(--brand-purple); border-color: var(--brand-purple);">Guardar Cambios</button>
+                <button type="button" class="btn btn-primary" id="saveChangesBtn">Guardar Cambios</button>
             </div>
         </div>
     </div>
@@ -150,31 +179,28 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Variable para guardar los datos de los proyectos (leídos desde PHP)
-    let projectsData = <?= json_encode($proyectos) ?>;
-
-    const table = $('#projectsTable').DataTable({
+    
+    
+ const table = $('#projectsTable').DataTable({
         "dom": 'Bt', "paging": true, "pageLength": 4, "language": { "emptyTable": "No hay proyectos para mostrar." }, "columnDefs": [ { "orderable": false, "targets": 7 } ],
         "buttons": [ { extend: 'collection', text: '<i class="fas fa-upload me-2"></i>Exportar', className: 'btn-secondary btn-custom', buttons: [ { extend: 'excelHtml5', text: '<i class="fas fa-file-excel me-2"></i>Excel', exportOptions: { columns: [ 0, 1, 2, 3, 4, 5, 6 ] } }, { extend: 'pdfHtml5', text: '<i class="fas fa-file-pdf me-2"></i>PDF', exportOptions: { columns: [ 0, 1, 2, 3, 4, 5, 6 ] } }, { extend: 'print', text: '<i class="fas fa-print me-2"></i>Imprimir', exportOptions: { columns: [ 0, 1, 2, 3, 4, 5, 6 ] } } ] } ]
     });
     table.buttons().container().appendTo('.actions-bar');
+    // Referencias a los elementos del DOM
+    const editModalEl = document.getElementById('editProjectModal');
+    const saveChangesBtn = document.getElementById('saveChangesBtn');
     
-    // Lógica para buscador y paginación personalizada (sin cambios)
-    $('#customSearchInput').on('keyup', function () { table.search(this.value).draw(); });
-    function renderCustomPagination() { /* ... */ }
-    $('#customPaginationContainer').on('click', 'a', function(e) { /* ... */ });
-    table.on('draw', function() { renderCustomPagination(); });
-    renderCustomPagination();
-    $('#periodoSelect').on('change', function() { window.location.href = '<?= site_url('dashboard') ?>?anio=' + this.value; });
+    // El array de proyectos que viene desde el controlador PHP
+    let projectsData = <?= json_encode($proyectos ?? []) ?>;
 
-    // --- INICIO DE LA LÓGICA DEL MODAL DE EDICIÓN ---
-    const editModal = document.getElementById('editProjectModal');
-    
-    editModal.addEventListener('show.bs.modal', function (event) {
+    // --- 1. Llenar el formulario cuando se abre el modal ---
+    editModalEl.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
         const projectId = button.getAttribute('data-id');
         const project = projectsData.find(p => p.id_proyecto == projectId);
+
         if (project) {
+            // Llenar formulario
             document.getElementById('editProjectId').value = project.id_proyecto;
             document.getElementById('editProjectName').value = project.nombre;
             document.getElementById('editProjectDescription').value = project.descripcion;
@@ -185,10 +211,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    document.getElementById('saveChangesBtn').addEventListener('click', function() {
-        const saveButton = this;
+    // --- 2. Guardar los cambios al hacer clic en el botón ---
+    saveChangesBtn.addEventListener('click', function() {
         const projectId = document.getElementById('editProjectId').value;
-        const updatedData = {
+        const formData = {
             id_proyecto: projectId,
             nombre: document.getElementById('editProjectName').value,
             descripcion: document.getElementById('editProjectDescription').value,
@@ -198,59 +224,76 @@ document.addEventListener('DOMContentLoaded', function () {
             fecha_fin: document.getElementById('editProjectEndDate').value,
         };
 
-        saveButton.disabled = true;
-        saveButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Guardando...';
+        // Bloquear el botón para evitar clics duplicados
+        saveChangesBtn.disabled = true;
+        saveChangesBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Guardando...';
 
+        // Enviar los datos al controlador que llama al Procedimiento Almacenado
         fetch('<?= site_url('proyectos/update') ?>', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-            body: JSON.stringify(updatedData)
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(formData)
         })
         .then(response => {
-            if (!response.ok) throw new Error('Error en la respuesta del servidor.');
+            if (!response.ok) {
+                // Si el servidor devuelve un error, lo lanzamos para que lo capture el .catch()
+                return response.json().then(err => { throw new Error(err.message || 'Error del servidor'); });
+            }
             return response.json();
         })
         .then(data => {
-            // Actualizar el array de datos en memoria para consistencia
-            const projectIndex = projectsData.findIndex(p => p.id_proyecto == projectId);
-            if (projectIndex > -1) { projectsData[projectIndex] = { ...projectsData[projectIndex], ...updatedData }; }
-
-            // Actualizar la fila en la tabla de DataTables
-            // Obtenemos la fila por su ID y luego la actualizamos y redibujamos la tabla
-            const rowNode = document.getElementById(`project-row-${projectId}`);
-            if(rowNode) {
-                const rowData = table.row(rowNode).data();
-                rowData[1] = updatedData.nombre;
-                rowData[2] = `<span class="badge-priority badge-${updatedData.prioridad.toLowerCase()}">${updatedData.prioridad}</span>`;
-                rowData[3] = updatedData.descripcion;
-                rowData[4] = new Date(updatedData.fecha_inicio + 'T00:00:00').toLocaleDateString('es-ES', { timeZone: 'UTC' });
-                rowData[5] = new Date(updatedData.fecha_fin + 'T00:00:00').toLocaleDateString('es-ES', { timeZone: 'UTC' });
-                rowData[6] = `<span class="badge-priority badge-${updatedData.status.toLowerCase()}">${updatedData.status}</span>`;
-                table.row(rowNode).data(rowData).draw(false); // 'false' para no resetear la paginación
-            }
-            
-            const modalInstance = bootstrap.Modal.getInstance(editModal);
-            modalInstance.hide();
+            // Éxito: El servidor confirmó la actualización
+            updateTableRow(formData);
+            bootstrap.Modal.getInstance(editModalEl).hide();
             alert('¡Proyecto actualizado con éxito!');
         })
         .catch(error => {
             console.error('Error al actualizar:', error);
-            alert('Error: No se pudo actualizar el proyecto.');
+            alert(`Error: ${error.message}`);
         })
         .finally(() => {
-            saveButton.disabled = false;
-            saveButton.innerHTML = 'Guardar Cambios';
+            // Restaurar el botón en cualquier caso (éxito o error)
+            saveChangesBtn.disabled = false;
+            saveChangesBtn.innerHTML = 'Guardar Cambios';
         });
     });
 
-    // Función de paginación (para que no se rompa)
-    function renderCustomPagination() {
-        const paginationContainer = $('#customPaginationContainer .pagination'); paginationContainer.empty();
-        const info = table.page.info(); const totalPages = info.pages; const currentPage = info.page;
-        if (totalPages <= 1) return;
-        paginationContainer.append(`<li class="page-item ${currentPage === 0 ? 'disabled' : ''}"><a class="page-link" href="#" data-page="previous">‹</a></li>`);
-        for (let i = 0; i < totalPages; i++) { paginationContainer.append(`<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i + 1}</a></li>`); }
-        paginationContainer.append(`<li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}"><a class="page-link" href="#" data-page="next">›</a></li>`);
+    // --- 3. Función auxiliar para actualizar la fila de la tabla visualmente ---
+    function updateTableRow(data) {
+        const row = document.getElementById(`project-row-${data.id_proyecto}`);
+        if (!row) return;
+
+        // Actualizar datos del array en memoria para consistencia
+        const projectIndex = projectsData.findIndex(p => p.id_proyecto == data.id_proyecto);
+        if (projectIndex > -1) {
+            projectsData[projectIndex] = { ...projectsData[projectIndex], ...data };
+        }
+        
+        // Formatear fechas para la vista (DD/MM/YYYY)
+        const formatDate = (dateString) => {
+            if (!dateString) return '';
+            // El + 'T00:00:00' evita problemas de zona horaria
+            return new Date(dateString + 'T00:00:00').toLocaleDateString('es-ES');
+        };
+
+        // Actualizar las celdas de la fila
+        row.cells[1].textContent = data.nombre;
+        row.cells[2].innerHTML = `<span class="badge-priority badge-${data.prioridad.toLowerCase()}">${data.prioridad}</span>`;
+        row.cells[3].textContent = data.descripcion;
+        row.cells[4].textContent = formatDate(data.fecha_inicio);
+        row.cells[5].textContent = formatDate(data.fecha_fin);
+        row.cells[6].innerHTML = `<span class="badge-priority badge-${data.status.toLowerCase()}">${data.status}</span>`;
+    }
+
+    // (Aquí puedes tener otro código JS, como el del cambio de año del dropdown)
+    const periodoSelect = document.getElementById('periodoSelect');
+    if (periodoSelect) {
+        periodoSelect.addEventListener('change', function() {
+            window.location.href = '<?= site_url('dashboard') ?>?anio=' + this.value;
+        });
     }
 });
 </script>

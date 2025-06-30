@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\Proyecto
-;
+use App\Models\Proyecto;
+use App\Models\ProyectoModel;
 class Proyectos extends BaseController
 {
      use ResponseTrait;
@@ -63,29 +63,17 @@ class Proyectos extends BaseController
         return $show_page;
     }
 
-        public function update()
+         public function update()
     {
-        // --- PASO 1: SEGURIDAD ---
-        // Nos aseguramos de que solo un administrador pueda ejecutar esta acción.
-        // Lee el rol guardado en la sesión durante el login.
+        // ... (La validación del rol y la obtención de datos se quedan igual) ...
         if (session()->get('rol') !== 'administrador') {
-            // Si no es admin, devolvemos un error de "Acceso Prohibido" y detenemos la ejecución.
             return $this->failForbidden('No tienes permiso para realizar esta acción.');
         }
-
-        // --- PASO 2: OBTENER Y VALIDAR LOS DATOS ---
-        // Obtenemos los datos que el JavaScript envió en formato JSON.
         $json = $this->request->getJSON();
-        
-        // Verificamos que se haya enviado un ID de proyecto.
         $id = $json->id_proyecto ?? null;
         if (!$id) {
             return $this->fail('No se proporcionó un ID de proyecto válido.');
         }
-
-        // --- PASO 3: PREPARAR LOS DATOS PARA LA BASE DE DATOS ---
-        // Creamos un array con los datos, asegurándonos de que los nombres de las claves
-        // coincidan exactamente con los nombres de las columnas en tu tabla "proyectos".
         $data = [
             'nombre'        => $json->nombre,
             'descripcion'   => $json->descripcion,
@@ -93,36 +81,18 @@ class Proyectos extends BaseController
             'status'        => $json->status,
             'fecha_inicio'  => $json->fecha_inicio,
             'fecha_fin'     => $json->fecha_fin
-            // No incluimos 'id_proyecto', 'anio' o 'id_usuario_asignado' porque no se editan en este formulario.
         ];
 
-        // --- PASO 4: INTERACTUAR CON LA BASE DE DATOS ---
-        // Creamos una instancia de nuestro modelo de proyectos.
         $proyectoModel = new ProyectoModel();
 
-        // Usamos un bloque try-catch para manejar cualquier error inesperado de la base de datos.
-        try {
-            // El método update() del modelo de CodeIgniter es el que ejecuta la consulta SQL "UPDATE".
-            // Le pasamos el ID del registro a actualizar y el array con los nuevos datos.
-            if ($proyectoModel->update($id, $data)) {
-                // Si la actualización fue exitosa, devolvemos una respuesta JSON de éxito al frontend.
-                return $this->respondUpdated(['message' => 'Proyecto actualizado con éxito.']);
-            } else {
-                 // --- ESTA ES LA PARTE IMPORTANTE PARA DEPURAR ---
-    // Obtenemos los errores de validación del modelo.
-    $errors = $proyectoModel->errors();
-    
-    // Creamos un mensaje de error detallado.
-    $errorMessage = 'No se pudo actualizar. Errores del modelo: ' . json_encode($errors);
-
-    // Devolvemos el mensaje de error específico.
-    return $this->fail($errorMessage);
-            }
-        } catch (\Exception $e) {
-            // Si ocurre una excepción (ej. la base de datos se desconecta), la capturamos
-            // y devolvemos un error genérico de servidor.
-            log_message('error', '[ProyectosController] ' . $e->getMessage()); // Guardamos el error real en los logs.
-            return $this->failServerError('Ocurrió un error inesperado al intentar actualizar el proyecto.');
+        // --- ¡CAMBIO IMPORTANTE AQUÍ! ---
+        // En lugar de llamar a $proyectoModel->update(), llamamos a nuestro nuevo método.
+        if ($proyectoModel->updateProjectSP($id, $data)) {
+            // La lógica de respuesta exitosa es la misma
+            return $this->respondUpdated(['message' => 'Proyecto actualizado con éxito mediante SP.']);
+        } else {
+            // La lógica de respuesta de error es la misma
+            return $this->fail('No se pudo actualizar el proyecto mediante el procedimiento almacenado.');
         }
     }
 }

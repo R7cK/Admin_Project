@@ -15,7 +15,7 @@ class Ajustes extends BaseController
         }
 
         // Carga la configuración del tema para pasársela a la vista
-        $defaults = ['default_theme' => 'light']; 
+        $defaults = ['default_theme' => 'dark']; 
         $settings = $session->get('general_settings') ?? $defaults;
         
         $data = [
@@ -44,7 +44,7 @@ class Ajustes extends BaseController
         $defaults = [
             'allow_new_projects'    => '1', 'show_user_avatar'      => '1',
             'allow_notifications'   => '1', 'feedback_from_users'   => '1',
-            'active_users'          => 'all', 'default_theme'         => 'light',
+            'active_users'          => 'all', 'default_theme'         => 'dark',
         ];
         $data['settings'] = $session->get('general_settings') ?? $defaults;
         $data['userData'] = $session->get('userData');
@@ -85,7 +85,7 @@ class Ajustes extends BaseController
         }
         helper('url');
 
-        $defaults = ['default_theme' => 'light']; 
+        $defaults = ['default_theme' => 'dark']; 
         $settings = $session->get('general_settings') ?? $defaults;
 
         $users = [
@@ -124,7 +124,7 @@ class Ajustes extends BaseController
         }
         helper('url');
 
-        $defaults = ['default_theme' => 'light']; 
+        $defaults = ['default_theme' => 'dark']; 
         $settings = $session->get('general_settings') ?? $defaults;
 
         $data['roles'] = [['id' => 1, 'nombre' => 'Administrador'],['id' => 2, 'nombre' => 'Manager'],['id' => 3, 'nombre' => 'Usuario']];
