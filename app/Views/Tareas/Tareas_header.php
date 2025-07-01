@@ -125,5 +125,6 @@
         .status-completada { background-color: #28a745; color: #fff; }
         .status-en-progreso { background-color: #ffc107; color: #212529; }
         .status-pendiente { background-color: #dc3545; color: #fff; }
+
     </style>
 </head>

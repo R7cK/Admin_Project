@@ -21,10 +21,11 @@
              <!-- Encabezado de la página -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <!-- REQUERIMIENTO 1: MOSTRAR NOMBRE DEL PROYECTO -->
+                 <!-- REQUERIMIENTO 1: MOSTRAR NOMBRE DEL PROYECTO -->
                 <h1 class="h3 mb-0" id="titulo-pagina">Añadir Tarea al Proyecto</h1>
-                <small class="text-muted fs-5 fw-bold text-primary">
-                    <?= esc($proyecto->nombre ?? 'Proyecto Desconocido') ?>
+                <small class="  fs-5 fw-bold text-primary">
+                    <!-- Como $proyecto es un array, usamos corchetes [] -->
+                    <?= esc($proyecto['nombre'] ?? 'Proyecto Desconocido') ?>
                 </small>
             </div>
             <span id="estado-guardado" class="text-success fw-bold"></span>
@@ -73,10 +74,12 @@
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </select>
+                                    
                                 </div>
-                                 <div class="col-md-6 mb-3">
-                                    <label for="fecha_creacion" class="form-label">Fecha de Registro</label>
-                                    <input type="date" class="form-control" name="fecha_creacion" id="fecha_creacion" value="<?= date('Y-m-d') ?>">
+                                <div class="col-md-6 mb-3">
+                                    <label for="tar_fechafin" class="form-label">Fecha de Finalización (Opcional)</label>
+                                    <input type="date" class="form-control" name="tar_fechafin" id="tar_fechafin" 
+                                           value="<?= esc($tarea['TAR_FECHAFIN'] ?? '') ?>">
                                 </div>
                             </div>
                         </div>
@@ -91,9 +94,14 @@
                                 <textarea class="form-control" id="criterio_desc" rows="4" required placeholder="Ej: El botón debe ser azul."></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="criterio_puntos" class="form-label">Puntos de Esfuerzo</label>
-                                <input type="number" class="form-control" id="criterio_puntos" step="1" min="0" required placeholder="Ej: 3">
-                            </div>
+                            <label for="criterio_puntos" class="form-label">Puntos de Esfuerzo (Story Points)</label>
+                            <select class="form-select" id="criterio_puntos" required>
+                                <option value="" selected disabled>-- Seleccionar puntos --</option>
+                                <?php foreach ($puntosScrum as $puntos): ?>
+                                    <option value="<?= $puntos ?>"><?= $puntos ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                             <div class="d-grid mt-4">
                                 <button type="button" id="btn-agregar-criterio" class="btn btn-info text-white btn-lg">
                                     <i class="fas fa-plus me-2"></i>
