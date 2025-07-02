@@ -20,11 +20,7 @@ $routes->get('/proyectos/nuevo', 'Projects::new');
 $routes->post('/proyectos/crear', 'Projects::create');
 $routes->get('tareas/index/(:num)', 'Tareas::index/$1');
 $routes->post('/tareas/crear', 'Tareas::crear');
-$routes->get('tareas/listar/(:num)', 'Tareas::listarPorProyecto/$1');
-$routes->get('tareas/editar/(:num)', 'Tareas::formulario/$1/editar');
-$routes->get('tareas/crear/(:num)', 'Tareas::formulario/$1/crear');
 $routes->get('/recursos', 'Recursos::index');
-$routes->post('tareas/ajax_eliminar_tarea', 'Tareas::ajax_eliminar_tarea');
 
 // En app/Config/Routes.php
 
@@ -53,6 +49,11 @@ $routes->get('dashboard/export_csv', 'Dashboard::export_csv');
 
 $routes->get('/proyectos/nuevo', 'Projects::new'); 
 $routes->post('/proyectos/crear', 'Projects::create');
+$routes->post('projects/create', 'Projects::create');
+
+// También asegúrate de tener la ruta para el formulario
+$routes->get('projects/new', 'Projects::new');
+
 
 // Ruta para la nueva sección de gestión de Usuarios y Grupos
 $routes->get('/gestion', 'Gestion::index');

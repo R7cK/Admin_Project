@@ -27,9 +27,9 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'localhost',
+        'hostname'     => 'DESKTOP-I95M29J\SQLDEVE2022',
         'username'     => 'sa',
-        'password'     => 'root',
+        'password'     => '123456',
         'database'     => 'pruebas',
         'DBDriver'     => 'SQLSRV', 
         'DBPrefix'     => '',

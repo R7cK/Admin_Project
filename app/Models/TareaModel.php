@@ -36,7 +36,8 @@ class TareaModel extends Model
      * 'object' es generalmente más limpio para trabajar en las vistas.
      * @var string
      */
-   protected $returnType = 'array';
+    protected $returnType = 'object';
+
     /**
      * Si es true, las operaciones de inserción y actualización usarán automáticamente
      * los valores de las columnas `created_at` y `updated_at`.
