@@ -70,6 +70,7 @@
                                     <a href="<?= site_url('proyectos/detalles/' . $project['id_proyecto']) ?>" title="Ver Detalles"><i class="fas fa-list-alt"></i></a>
                                    <a href="<?= site_url('tareas/index/' . $project['id_proyecto']) ?>" title="Añadir Tareas"><i class="fas fa-plus-circle"></i></a>
                                     <a href="<?= site_url('proyectos/' . $project['id_proyecto'] . '/gestion') ?>" title="Gestionar Usuarios"><i class="fas fa-user-plus"></i></a>
+                                    <a href="<?= site_url('tareas/listar/' . $project['id_proyecto']) ?>" title="Ver y Editar Tareas"><i class="fas fa-tasks"></i></a>
                                     
                                     <?php if ($userData['rol'] === 'administrador'): ?>
                                         <a href="#" class="ms-1" title="Editar Proyecto" 
@@ -231,11 +232,14 @@ document.addEventListener('DOMContentLoaded', function () {
         ]
     });
     table.buttons().container().appendTo('.actions-bar');
-    
+    table.buttons().container().appendTo('.actions-bar');
     // Referencias a los elementos del DOM
     const editModalEl = document.getElementById('editProjectModal');
     const saveChangesBtn = document.getElementById('saveChangesBtn');
-    
+        $('#customSearchInput').on('keyup', function(){
+         table.search(this.value).draw();
+    });
+
     // El array de proyectos que viene desde el controlador PHP
     let projectsData = <?= json_encode($proyectos ?? []) ?>;
 
