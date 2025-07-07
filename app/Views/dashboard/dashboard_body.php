@@ -243,7 +243,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Referencias a los elementos del DOM
     const editModalEl = document.getElementById('editProjectModal');
     const saveChangesBtn = document.getElementById('saveChangesBtn');
-    
+        $('#customSearchInput').on('keyup', function(){
+         table.search(this.value).draw();
+    });
+
     // El array de proyectos que viene desde el controlador PHP
     let projectsData = <?= json_encode($proyectos ?? []) ?>;
 

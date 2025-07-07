@@ -46,10 +46,6 @@ class Dashboard extends BaseController
             return redirect()->to('/login');
         }
 
-        // ===== AÑADIDO: Lógica para leer el tema guardado =====
-        $defaults = ['default_theme' => 'dark']; // Tema por defecto
-        $settings = $session->get('general_settings') ?? $defaults;
-
         $yearFromRequest = $this->request->getVar('anio');
         if ($yearFromRequest) {
             $selectedYear = $yearFromRequest;
@@ -76,6 +72,10 @@ class Dashboard extends BaseController
         } else {
             $proyectos = $query->where('id_usuario_asignado', $userData['id'])->findAll();
         }
+        
+        // ===== AÑADIDO: Lógica para leer el tema guardado =====
+        $defaults = ['default_theme' => 'dark']; // Tema por defecto
+        $settings = $session->get('general_settings') ?? $defaults;
         
         // Unificamos todos los datos que la vista necesita
         $data = [
