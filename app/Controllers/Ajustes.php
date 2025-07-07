@@ -14,12 +14,21 @@ class Ajustes extends BaseController
             return redirect()->to('/login');
         }
 
+        // --- INICIO DEL CAMBIO ---
+        // Construimos el array 'userData' manualmente desde la sesión.
+        $userData = [
+            'rol' => strtolower($session->get('rol') ?? ''),
+            'nombre_completo' => $session->get('nombre_completo')
+            // Puedes añadir más datos si los necesitas, ej: 'id_usuario' => $session->get('id_usuario')
+        ];
+        // --- FIN DEL CAMBIO ---
+
         // Carga la configuración del tema para pasársela a la vista
         $defaults = ['default_theme' => 'dark']; 
         $settings = $session->get('general_settings') ?? $defaults;
         
         $data = [
-            'userData' => $session->get('userData'),
+            'userData' => $userData, // Usamos el array que acabamos de crear
             'settings' => $settings
         ];
         helper('url');
@@ -41,13 +50,21 @@ class Ajustes extends BaseController
         }
         helper('form');
 
+        // --- INICIO DEL CAMBIO ---
+        // Construimos el array 'userData' manualmente.
+        $userData = [
+            'rol' => strtolower($session->get('rol') ?? ''),
+            'nombre_completo' => $session->get('nombre_completo')
+        ];
+        // --- FIN DEL CAMBIO ---
+
         $defaults = [
             'allow_new_projects'    => '1', 'show_user_avatar'      => '1',
             'allow_notifications'   => '1', 'feedback_from_users'   => '1',
             'active_users'          => 'all', 'default_theme'         => 'dark',
         ];
         $data['settings'] = $session->get('general_settings') ?? $defaults;
-        $data['userData'] = $session->get('userData');
+        $data['userData'] = $userData; // Usamos el array que acabamos de crear
 
         $show_page  = view('Ajustes/ajustes_header', $data);
         $show_page .= view('ajustes/generales', $data);
@@ -57,6 +74,7 @@ class Ajustes extends BaseController
 
     /**
      * Guarda las configuraciones generales en la sesión.
+     * (Este método no necesita cambios)
      */
     public function guardarGenerales()
     {
@@ -84,6 +102,14 @@ class Ajustes extends BaseController
             return redirect()->to('/login');
         }
         helper('url');
+        
+        // --- INICIO DEL CAMBIO ---
+        // Construimos el array 'userData' manualmente.
+        $userData = [
+            'rol' => strtolower($session->get('rol') ?? ''),
+            'nombre_completo' => $session->get('nombre_completo')
+        ];
+        // --- FIN DEL CAMBIO ---
 
         $defaults = ['default_theme' => 'dark']; 
         $settings = $session->get('general_settings') ?? $defaults;
@@ -98,7 +124,7 @@ class Ajustes extends BaseController
 
         $data = [
             'settings'  => $settings,
-            'userData'  => $session->get('userData'),
+            'userData'  => $userData, // Usamos el array que acabamos de crear
             'resources' => ['users'  => $users, 'groups' => $groups],
             'filters' => [
                 'user_types'  => array_values(array_unique(array_column($users, 'rol'))),
@@ -124,6 +150,14 @@ class Ajustes extends BaseController
         }
         helper('url');
 
+        // --- INICIO DEL CAMBIO ---
+        // Construimos el array 'userData' manualmente.
+        $userData = [
+            'rol' => strtolower($session->get('rol') ?? ''),
+            'nombre_completo' => $session->get('nombre_completo')
+        ];
+        // --- FIN DEL CAMBIO ---
+
         $defaults = ['default_theme' => 'dark']; 
         $settings = $session->get('general_settings') ?? $defaults;
 
@@ -133,7 +167,7 @@ class Ajustes extends BaseController
         $data['tipos_tarea'] = [['id' => 1, 'nombre' => 'Diseño UX/UI'],['id' => 2, 'nombre' => 'Desarrollo Frontend']];
         $data['tipos_costo'] = [['id' => 1, 'nombre' => 'Licencias de Software'],['id' => 2, 'nombre' => 'Servicios Cloud']];
         $data['departamentos'] = [['id' => 1, 'nombre' => 'Tecnologías de la Información'],['id' => 2, 'nombre' => 'Marketing Digital']];
-        $data['userData'] = $session->get('userData');
+        $data['userData'] = $userData; // Usamos el array que acabamos de crear
         $data['settings'] = $settings;
 
         $show_page  = view('Ajustes/ajustes_header', $data);
