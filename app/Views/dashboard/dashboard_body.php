@@ -40,7 +40,7 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <label for="periodoSelect" class="form-label me-2 mb-0"><strong>Periodo:</strong></label>
-                    <select class="form-select" id="periodoSelect" style="width: 120px; background-color: var(--panel-light-bg); color: var(--text-light); border-color: #555;">
+                    <select class="form-select" id="periodoSelect" >
                         <?php for ($i = date('Y'); $i >= 2020; $i--): ?>
                             <option value="<?= $i ?>" <?= ($i == $selectedYear) ? 'selected' : '' ?>><?= $i ?></option>
                         <?php endfor; ?>
@@ -104,10 +104,10 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header colorBlack">
-                <h5 class="modal-title" id="editProjectModalLabel">Editar Proyecto</h5>
+                <h5 class="modal-title " id="editProjectModalLabel">Editar Proyecto</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body colorBlack">
                 <form id="editProjectForm" onsubmit="return false;">
                     <!-- Campo oculto para guardar el ID -->
                     <input type="hidden" id="editProjectId">
@@ -204,8 +204,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     {
                         extend: 'csvHtml5',
                         text: '<i class="fas fa-file-csv me-2"></i>CSV',
+                        fieldSeparator: ';', // <--- ¡AQUÍ ESTÁ LA CLAVE!
+                        bom: true,    
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6] // Exporta las columnas 0 a 6
+                        columns: [0, 1, 2, 3, 4, 5, 6] // Exporta las columnas 0 a 6
                         }
                     },
                     {

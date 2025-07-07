@@ -82,26 +82,35 @@ $(document).ready(function() {
     let editMode = false;
     
     // Abrir modal para NUEVO registro
-    $('#btn-nuevo').on('click', function() {
-        editMode = false;
-        $('#catalog-form')[0].reset();
-        $('#modal-title').text('Nuevo Registro en <?= esc($title, 'js') ?>');
-        $('#item-id').val('');
-        $('#catalog-modal').modal('show');
-    });
+   $('#btn-nuevo').on('click', function() {
+    editMode = false;
+    $('#catalog-form')[0].reset();
+    
+    // Cambiamos el texto y AÑADIMOS el color con .css()
+    $('#modal-title')
+        .text('Nuevo Registro en <?= esc($title, 'js') ?>')
+        .css('color', 'black'); // <--- LÍNEA AÑADIDA (encadenada)
+
+    $('#item-id').val('');
+    $('#catalog-modal').modal('show');
+});
 
     // Abrir modal para EDITAR registro
-    $('.btn-editar').on('click', function() {
-        editMode = true;
-        const id = $(this).data('id');
-        const name = $(this).data('name');
-        
-        $('#modal-title').text('Editar Registro en <?= esc($title, 'js') ?>');
-        $('#item-id').val(id);
-        $('#item-name').val(name);
-        $('#catalog-modal').modal('show');
-    });
+  $('.btn-editar').on('click', function() {
+    editMode = true;
+    const id = $(this).data('id');
+    const name = $(this).data('name');
+    
+    // Cambiamos el texto Y LUEGO el color
+    $('#modal-title').text('Editar Registro en <?= esc($title, 'js') ?>');
+    $('#modal-title').css('color', 'black'); // <--- LÍNEA AÑADIDA
 
+    $('#item-id').val(id);
+    $('#item-name').val(name);
+    $('#catalog-modal').modal('show');
+});
+
+    
     // Enviar formulario (Crear o Actualizar)
     $('#catalog-form').on('submit', function(e) {
         e.preventDefault();
