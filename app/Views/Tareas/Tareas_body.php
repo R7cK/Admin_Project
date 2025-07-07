@@ -168,7 +168,7 @@
                 setTimeout(() => { estadoGuardado.textContent = ''; }, 500);
             }, 3000);
         };
-
+        
         const agregarFilaCriterio = (descripcion, puntos, criterioId) => {
             const nuevaFila = document.createElement('tr');
             nuevaFila.setAttribute('data-criterio-id', criterioId);

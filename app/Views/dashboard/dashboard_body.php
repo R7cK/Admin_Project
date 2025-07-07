@@ -68,7 +68,7 @@
                                 <td><span class="badge-priority badge-<?= strtolower(esc($project['status'])) ?>"><?= esc($project['status']) ?></span></td>
                                 <td class="table-actions">
                                     <a href="<?= site_url('proyectos/detalles/' . $project['id_proyecto']) ?>" title="Ver Detalles"><i class="fas fa-list-alt"></i></a>
-                                   <a href="<?= site_url('tareas/index/' . $project['id_proyecto']) ?>" title="Añadir Tareas"><i class="fas fa-plus-circle"></i></a>
+                                   <a href="<?= site_url('tareas/crear/' . $project['id_proyecto']) ?>" title="Añadir Tareas"><i class="fas fa-plus-circle"></i></a>
                                     <a href="<?= site_url('proyectos/' . $project['id_proyecto'] . '/gestion') ?>" title="Gestionar Usuarios"><i class="fas fa-user-plus"></i></a>
                                     <a href="<?= site_url('tareas/listar/' . $project['id_proyecto']) ?>" title="Ver y Editar Tareas"><i class="fas fa-tasks"></i></a>
                                     
@@ -101,7 +101,7 @@
 <div class="modal fade" id="editProjectModal" tabindex="-1" aria-labelledby="editProjectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header colorBlack">
                 <h5 class="modal-title" id="editProjectModalLabel">Editar Proyecto</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -117,13 +117,13 @@
                     </div>
 
                     <!-- Descripción -->
-                    <div class="mb-3">
-                        <label for="editProjectDescription" class="form-label">Descripción</label>
+                    <div class="mb-3 ">
+                        <label for="editProjectDescription" class="form-label ">Descripción</label>
                         <textarea class="form-control" id="editProjectDescription" rows="3"></textarea>
                     </div>
 
                     <!-- Fila para Prioridad y Status -->
-                    <div class="row">
+                    <div class="row ">
                         <div class="col-md-6 mb-3">
                             <label for="editProjectPriority" class="form-label">Prioridad</label>
                             <select class="form-select" id="editProjectPriority">

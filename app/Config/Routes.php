@@ -85,3 +85,4 @@ $routes->post('tareas/ajax_gestionar_tarea_criterio', 'Tareas::ajax_gestionar_ta
 $routes->post('tareas/ajax_gestionar_tarea_criterio', 'Tareas::ajax_gestionar_tarea_criterio');
 $routes->post('tareas/ajax_actualizar_criterio', 'Tareas::ajax_actualizar_criterio');
 $routes->post('tareas/ajax_eliminar_criterio', 'Tareas::ajax_eliminar_criterio');
+$routes->post('tareas/ajax_actualizar_estado_criterio', 'Tareas::ajax_actualizar_estado_criterio');
