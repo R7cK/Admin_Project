@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/main') ?> <!-- Usando tu plantilla principal correcta -->
+<?= $this->extend('layouts/main') ?> 
 
 <?= $this->section('content') ?>
 
@@ -8,7 +8,7 @@
             <h4 class="m-0">Tareas del Proyecto</h4>
             <small class="text-muted">Aquí puedes ver y editar las tareas existentes.</small>
         </div>
-        <a href="<?= site_url('tareas/crear/' . $id_proyecto) ?>" class="btn btn-primary">
+        <a href="<?= site_url('tareas/index/' . $id_proyecto) ?>" class="btn btn-primary">
             <i class="fas fa-plus me-2"></i>Crear Nueva Tarea
         </a>
     </div>
@@ -21,6 +21,7 @@
                     <th>Nombre Tarea</th>
                     <th>Estado</th>
                     <th>Fecha Fin</th>
+                    <th>Días Restantes</th>
                     <th class="text-center">Acciones</th>
                 </tr>
             </thead>
@@ -31,13 +32,34 @@
                             <td><?= esc($tarea['TAR_ID']) ?></td>
                             <td><?= esc($tarea['TAR_NOM']) ?></td>
                             <td>
-                                <!-- Muestra el nombre del estado gracias al JOIN del controlador -->
-                                <span class="badge bg-secondary"><?= esc($tarea['STAT_NOM'] ?? 'No definido') ?></span>
-                            </td>
+                    <?php
+                    $estado = esc($tarea['estado_calculado']);
+                    $badgeClass = 'bg-secondary'; // Default
+                    if ($estado === 'Atrasado') $badgeClass = 'bg-danger';
+                    if ($estado === 'Completado') $badgeClass = 'bg-success';
+                    if ($estado === 'En Progreso') $badgeClass = 'bg-info';
+                    ?>
+                    <span class="badge <?= $badgeClass ?>"><?= $estado ?></span>
+                </td>
                             <td>
                                 <!-- Formatea la fecha para ser más legible -->
                                 <?= esc($tarea['TAR_FECHAFIN'] ? date('d/m/Y', strtotime($tarea['TAR_FECHAFIN'])) : 'N/A') ?>
                             </td>
+
+                             <td>
+                    <?php
+                    $dias = $tarea['dias_restantes'];
+                    if ($dias === null) {
+                        echo 'N/A';
+                    } elseif ($dias < 0) {
+                        echo '<span class="text-danger fw-bold">' . abs($dias) . ' días de retraso</span>';
+                    } elseif ($dias == 0) {
+                        echo '<span class="text-warning fw-bold">Vence hoy</span>';
+                    } else {
+                        echo $dias . ' días';
+                    }
+                    ?>
+                </td>
                             <td class="text-center">
                                 <!-- Botón para Editar -->
                                 <a href="<?= site_url('tareas/editar/' . $tarea['TAR_ID']) ?>" class="btn btn-sm btn-warning" title="Editar Tarea">

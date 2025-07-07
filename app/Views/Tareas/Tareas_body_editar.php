@@ -1,4 +1,4 @@
-<body class="<?= ($settings['default_theme'] ?? 'light') === 'dark' ? 'theme-dark' : 'theme-light' ?>">
+<body class="<?= ($settings['default_theme'] ?? 'dark') === 'dark' ? 'theme-dark' : 'theme-light' ?>">
 
 <div class="main-container">
     <!-- BARRA LATERAL (Sidebar) para consistencia visual -->
@@ -58,7 +58,20 @@
                                 <label for="tar_desc" class="form-label">Descripción Detallada</label>
                                 <textarea class="form-control" name="tar_desc" id="tar_desc" rows="5" placeholder="Describe los criterios de aceptación y detalles funcionales."><?= esc($tarea['TAR_DESC'] ?? '') ?></textarea>
                             </div>
-                            
+                            <div class="row">
+                    <!-- Columna para cambiar estado -->
+                    <div class="col-md-6 mb-3">
+                        <label for="stat_id" class="form-label">Estado de la Tarea</label>
+                        <select class="form-select" name="stat_id" id="stat_id">
+                            <?php foreach ($listaEstatus as $estatus): ?>
+                                <option value="<?= esc($estatus['STAT_ID']) ?>"
+                                        <?= (isset($tarea['STAT_ID']) && $tarea['STAT_ID'] == $estatus['STAT_ID']) ? 'selected' : '' ?>>
+                                    <?= esc($estatus['STAT_NOM']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
                             <!-- ESTRUCTURA HTML CORREGIDA: Filas y columnas -->
                             <div class="row">
                                 <!-- Columna para "Solicitado por" -->
@@ -95,7 +108,7 @@
                                 <textarea class="form-control" id="criterio_desc" rows="4" placeholder="Ej: El botón debe ser azul."></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="criterio_puntos" class="form-label">Puntos de Esfuerzo (Story Points)</label>
+                                <label for="criterio_puntos" class="form-label">Puntos de Esfuerzo</label>
                                 <select class="form-select" id="criterio_puntos">
                                     <option value="" selected disabled>-- Seleccionar puntos --</option>
                                     <?php foreach ($puntosScrum as $puntos): ?>
@@ -185,10 +198,6 @@
             }, 3000);
         };
         
-        /**
-         * ESTA ES LA FUNCIÓN CLAVE QUE ESTABA INCOMPLETA.
-         * Dibuja una nueva fila <tr> en la tabla de criterios.
-         */
         const agregarFilaCriterio = (descripcion, puntos, criterioId) => {
             const nuevaFila = document.createElement('tr');
             nuevaFila.setAttribute('data-criterio-id', criterioId);
