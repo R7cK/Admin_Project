@@ -29,7 +29,7 @@ class Tareas extends BaseController
         }
 
         // 4. PREPARAMOS LOS DATOS PARA LA VISTA
-        $defaults = ['default_theme' => 'light']; 
+        $defaults = ['default_theme' => 'dark']; 
         $settings = $session->get('general_settings') ?? $defaults;
         helper(['url', 'form']);
         
@@ -43,6 +43,7 @@ class Tareas extends BaseController
             'listaUsuarios' => $listaUsuarios,  // <-- Array de usuarios
             'puntosScrum'  => $puntosScrum,      // <-- Array de puntos para el combobox
             'id_proyecto'  => $id_proyecto,
+            
         ];
         
         $show_page  = view('Tareas/tareas_header', $data);
@@ -191,7 +192,7 @@ public function listarPorProyecto($id_proyecto)
     }
 
     $data = [
-        'settings' => session()->get('general_settings') ?? ['default_theme' => 'light'],
+        'settings' => session()->get('general_settings') ?? ['default_theme' => 'dark'],
         'userData' => session()->get('userData'),
         'tareas'   => $tareas_ordenadas, // Pasamos los datos completos
         'proyecto' => $proyecto, // <-- PASAMOS EL OBJETO COMPLETO DEL PROYECTO A LA VISTA

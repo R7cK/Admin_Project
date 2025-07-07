@@ -1,3 +1,4 @@
+
 <?= $this->extend('layouts/main') ?> <!-- Asume que tienes un layout principal -->
 
 <?= $this->section('content') ?>

@@ -1,4 +1,5 @@
-<body class="<?= ($settings['default_theme'] ?? 'dark') === 'dark' ? 'theme-dark' : 'theme-light' ?>">
+<body class="<?= ($settings['default_theme'] ?? 'dark') === 'dark' ? 'theme-dark' : 'theme-ligth' ?>">
+
 
 <!-- CSS de DataTables y Modal -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -13,8 +14,9 @@
     <div class="sidebar d-none d-lg-block">
         <h5 class="sidebar-header text-center my-3">AdminProject</h5>
         <nav class="sidebar-nav mt-4">
+            <a href="<?= site_url('dashboard') ?>"><i class="fas fa-home"></i> INICIO</a>
             <a href="<?= site_url('tareas/listar/' . $id_proyecto) ?>">
-                <i class="fas fa-arrow-left"></i> Volver a la Lista
+                <i class="fas fa-tasks"></i> Ir a la lista
             </a>
             <a href="#" class="active">
                 <i class="fas fa-tasks"></i> Gestión de Tareas

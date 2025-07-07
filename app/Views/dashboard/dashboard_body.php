@@ -56,6 +56,7 @@
                             <th>No.</th><th>Nombre</th><th>Prioridad</th><th>Descripción</th><th>Fecha Inicio</th><th>Fecha Fin</th><th>Status</th><th>Acciones</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                         <?php foreach ($proyectos as $project): ?>
                             <tr id="project-row-<?= esc($project['id_proyecto']) ?>">
@@ -232,6 +233,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         ]
     });
+    $('#customSearchInput').on('keyup', function() {
+    table.search(this.value).draw();
+});
     table.buttons().container().appendTo('.actions-bar');
     
     // Referencias a los elementos del DOM

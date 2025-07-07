@@ -16,40 +16,36 @@
     /* ================================================================== */
 
     /* Define las variables para el Tema Claro (por defecto) */
-    :root {
-        --body-bg: #f0f2f5;
-        --panel-bg: #ffffff;
-        --sidebar-bg: #ffffff; 
-        --sidebar-text: rgb(0, 0, 0);
-        --sidebar-header-text: #212529;
-        --main-text: #212529;
-        --secondary-text: #6c757d; /* Color gris estándar para texto secundario */
-        --border-color: #dee2e6;
-        --brand-purple: #8e44ad; 
-        --accent-yellow: #ffc107;
-        /* Añadimos variables para los estados para que también puedan cambiar */
-        --status-success-bg: #28a745;
-        --status-success-text: #ffffff;
-        --status-warning-bg: #ffc107;
-        --status-warning-text: #212529;
-        --status-danger-bg: #dc3545;
-        --status-danger-text: #ffffff;
-    }
+   :root {
+            --body-bg: #f0f2f5;
+            --panel-bg: #ffffff;
+            --sidebar-bg: #ffffff; 
+            --sidebar-text: #495057;
+            --sidebar-header-text: #212529;
+            --sidebar-hover-bg: #e9ecef;
+            --main-text: #212529; 
+            --secondary-text: #6c757d;
+            --border-color: #dee2e6;
+            --form-input-bg: #ffffff;
+            --form-input-text: #212529;
+            --brand-purple: #8e44ad; 
+            --accent-yellow: #ffc107;
+        }
 
-    /* Sobreescribe las variables solo si el body tiene la clase 'theme-dark' */
-    body.theme-dark {
-        --body-bg: #20202d;
-        --panel-bg: #2c2c3e;
-        --sidebar-bg: #2c2c3e;
-        --sidebar-header-text: #ffffff;
-        --sidebar-text: #a0a0b0;
-        --main-text: #e0e0e0; 
-        --secondary-text: #a0a0b0;
-        --border-color: #4a4a6a;
-        /* Los colores de estado pueden seguir iguales o los puedes ajustar */
-        /* Por ejemplo, hacer el amarillo un poco menos brillante en modo oscuro */
-        --status-warning-bg: #e0ac00;
-    } 
+        /* Sobreescribe las variables solo si el body tiene la clase 'theme-dark' */
+        body.theme-dark {
+            --body-bg: #20202d;
+            --panel-bg: #2c2c3e;
+            --sidebar-bg: #2c2c3e;
+            --sidebar-header-text: #ffffff;
+            --sidebar-text: #a0a0b0;
+            --sidebar-hover-bg: #20202d;
+            --main-text:rgb(255, 255, 255); 
+            --secondary-text: #a0a0b0; 
+            --border-color: #4a4a6a;
+            --form-input-bg: #4a4a6a;
+            --form-input-text: #e0e0e0;
+        }
 
     /* --- Estilos Generales (CORREGIDOS) --- */
     body { 
