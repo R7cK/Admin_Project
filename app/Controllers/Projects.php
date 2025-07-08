@@ -48,8 +48,57 @@ class Projects extends BaseController
      */
     public function create()
     {
-        // Conectamos a la base de datos para poder usar transacciones
-        $db = Database::connect();
+        // <-- AÑADIDO: Bloque completo de validación -->
+        $validation = \Config\Services::validation();
+
+        // Reglas de validación
+        $rules = [
+            'nombre_proyecto' => [
+                'label' => 'Nombre del Proyecto',
+                'rules' => 'required|trim|is_unique[proyectos.nombre]',
+                'errors' => [
+                    'required' => 'El campo {field} es obligatorio.',
+                    'is_unique' => 'Ya existe un proyecto con este nombre. Por favor, elige otro.'
+                ]
+            ],
+            'fecha_inicio' => [
+                'label' => 'Fecha de Inicio',
+                'rules' => 'required|valid_date'
+            ],
+            // --- ¡AQUÍ ESTÁ EL CAMBIO! ---
+            'fecha_fin' => [
+                'label' => 'Fecha de Fin',
+                // En lugar de una cadena, la regla es una función anónima.
+                'rules' => ['required', 'valid_date', function($fecha_fin) {
+                    $fecha_inicio = $this->request->getPost('fecha_inicio');
+                    if (empty($fecha_inicio) || empty($fecha_fin)) {
+                        return true; // Si una de las fechas no está, otras reglas lo capturarán.
+                    }
+                    return strtotime($fecha_fin) >= strtotime($fecha_inicio);
+                }],
+                'errors' => [
+                    // El error se muestra para la regla anónima (en la posición 2 del array de reglas).
+                    '2' => 'La Fecha de Fin no puede ser anterior a la Fecha de Inicio.'
+                ]
+            ],
+            'responsable_id' => [
+                'label' => 'Responsable del Proyecto',
+                'rules' => 'required',
+                'errors' => ['required' => 'Debes seleccionar un {field}.']
+            ],
+            'usuarios' => [
+                'label' => 'Usuarios del Equipo',
+                'rules' => 'required',
+                'errors' => ['required' => 'Debes asignar al menos un usuario al equipo.']
+            ]
+        ];
+
+        if (!$this->validate($rules)) {
+            // Si la validación falla, redirigimos de vuelta.
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+        
+         $db = Database::connect();
         $proyectoModel = new ProyectoModel();
 
         // 1. Recoger los datos del formulario
@@ -109,5 +158,22 @@ class Projects extends BaseController
         }
 
         return redirect()->to(base_url('/dashboard'));
+    }
+
+        public function check_name()
+    {
+        // Solo responde a peticiones AJAX por seguridad
+        if ($this->request->isAJAX()) {
+            $proyectoModel = new ProyectoModel();
+            $nombre = $this->request->getJSON()->nombre_proyecto;
+            
+            // Busca si ya existe un proyecto con ese nombre
+            $existe = $proyectoModel->where('nombre', $nombre)->first();
+            
+            // Retorna una respuesta JSON que el script del frontend puede leer
+            return $this->response->setJSON(['existe' => ($existe !== null)]);
+        }
+        // Si no es una petición AJAX, no se permite el acceso.
+        return $this->response->setStatusCode(403, 'Forbidden');
     }
 }
