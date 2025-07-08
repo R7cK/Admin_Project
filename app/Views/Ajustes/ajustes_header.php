@@ -83,15 +83,15 @@
         .settings-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); color: var(--brand-purple); }
         .settings-card .icon { font-size: 3.5rem; margin-bottom: 1rem; line-height: 1; }
         .settings-card .title { font-weight: 500; font-size: 1.1rem; }
-            /* Ajuste para mejorar la legibilidad en el formulario de configuraciones */
-        .data-panel .form-label {
-            color: #FFFFFF !important; /* Hace que las etiquetas principales sean blancas y brillantes */
+       /* Las etiquetas principales ahora usan el color de texto principal del tema */
+        .form-label {
+            color: var(--main-text) !important; 
         }
 
-        .data-panel .text-muted {
-            color: #b5b5b5 !important; /* Aclara el texto de descripción gris para que sea más legible */
+        /* El texto pequeño y secundario mantiene el color de texto secundario */
+        small.text-muted {
+            color: var(--secondary-text) !important;
         }
-
         .avatar-circle {
             width: 40px;
             height: 40px;
@@ -103,15 +103,6 @@
             font-weight: 600;
             color: #FFFFFF;
             text-transform: uppercase;
-        }
-           /* Las etiquetas principales ahora usan el color de texto principal del tema */
-        .form-label {
-            color: var(--main-text) !important; 
-        }
-
-        /* El texto pequeño y secundario mantiene el color de texto secundario */
-        small.text-muted {
-            color: var(--secondary-text) !important;
         }
 
     </style>

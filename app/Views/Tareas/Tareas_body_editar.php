@@ -27,7 +27,7 @@
     <!-- ENVOLTORIO PRINCIPAL DEL CONTENIDO -->
     <div class="content-wrapper">
         <div class="main-panel">
-
+            
             <!-- Encabezado de la página -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
@@ -43,7 +43,6 @@
             
             <!-- FORMULARIO PRINCIPAL -->
             <form id="form-tarea" onsubmit="return false;">
-                
                 <!-- CAMPOS OCULTOS ESENCIALES -->
                 <input type="hidden" name="tarea_id" id="tarea_id" value="<?= esc($tarea['TAR_ID'] ?? '') ?>">
                 <input type="hidden" name="proy_id" value="<?= esc($id_proyecto) ?>">
@@ -175,9 +174,12 @@
                         </table>
                     </div>
                 </div>
+                                      <a href="<?= site_url('dashboard') ?>" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver al Dashboard</a>
+
             </form>
         </div>
     </div>
+    
 </div>
 
 <!-- Modal para la edición de criterios -->

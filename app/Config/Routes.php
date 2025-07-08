@@ -23,9 +23,6 @@ $routes->post('/tareas/crear', 'Tareas::crear');
 $routes->get('tareas/listar/(:num)', 'Tareas::listarPorProyecto/$1');
 $routes->get('tareas/editar/(:num)', 'Tareas::formulario/$1/editar');
 $routes->get('tareas/crear/(:num)', 'Tareas::formulario/$1/crear');
-$routes->get('tareas/listar/(:num)', 'Tareas::listarPorProyecto/$1');
-$routes->get('tareas/editar/(:num)', 'Tareas::formulario/$1/editar');
-$routes->get('tareas/crear/(:num)', 'Tareas::formulario/$1/crear');
 $routes->get('/recursos', 'Recursos::index');
 $routes->post('tareas/ajax_eliminar_tarea', 'Tareas::ajax_eliminar_tarea');
 
@@ -57,6 +54,11 @@ $routes->get('dashboard/export_csv', 'Dashboard::export_csv');
 
 $routes->get('/proyectos/nuevo', 'Projects::new'); 
 $routes->post('/proyectos/crear', 'Projects::create');
+$routes->post('projects/create', 'Projects::create');
+
+// También asegúrate de tener la ruta para el formulario
+$routes->get('projects/new', 'Projects::new');
+
 
 // Ruta para la nueva sección de gestión de Usuarios y Grupos
 $routes->get('/gestion', 'Gestion::index');
@@ -84,3 +86,12 @@ $routes->post('tareas/ajax_gestionar_tarea_criterio', 'Tareas::ajax_gestionar_ta
 $routes->post('tareas/ajax_actualizar_criterio', 'Tareas::ajax_actualizar_criterio');
 $routes->post('tareas/ajax_eliminar_criterio', 'Tareas::ajax_eliminar_criterio');
 $routes->post('tareas/ajax_actualizar_estado_criterio', 'Tareas::ajax_actualizar_estado_criterio');
+
+// --- NUEVAS RUTAS PARA EDITAR Y ELIMINAR ---
+$routes->put('/ajustes/updateUsuario/(:num)', 'Ajustes::updateUsuario/$1');
+$routes->delete('/ajustes/deleteUsuario/(:num)', 'Ajustes::deleteUsuario/$1');
+
+// Rutas para la sección de Ajustes
+$routes->get('/ajustes/usuarios', 'Ajustes::usuarios');
+$routes->post('/ajustes/crearUsuario', 'Ajustes::crearUsuario');
+$routes->post('/ajustes/crearGrupo', 'Ajustes::crearGrupo');

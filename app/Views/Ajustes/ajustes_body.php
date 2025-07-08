@@ -33,7 +33,7 @@
             </div>
 
             <!-- CONTENIDO ESPECÍFICO DE LA PÁGINA DE AJUSTES -->
-            <div class="container-fluid">
+                    <div class="container-fluid">
                 <div class="row g-4">
                     <?php if ($userData['rol'] === 'administrador'): ?>
                     <div class="col-12 col-md-6 col-lg-6"><a href="<?= site_url('/ajustes/masterdata') ?>" class="settings-card"><i class="icon fas fa-database"></i><span class="title">Master Data</span></a></div>

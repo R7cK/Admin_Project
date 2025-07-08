@@ -21,7 +21,7 @@
              <!-- Encabezado de la página -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                 <!-- REQUERIMIENTO 1: MOSTRAR NOMBRE DEL PROYECTO -->
+                <!-- REQUERIMIENTO 1: MOSTRAR NOMBRE DEL PROYECTO -->
                 <h1 class="h3 mb-0" id="titulo-pagina">Añadir Tarea al Proyecto</h1>
                 <small class="text-muted fs-5 fw-bold text-primary">
                     <?= esc($proyecto['nombre'] ?? 'Proyecto Desconocido') ?>
@@ -73,7 +73,6 @@
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </select>
-                                    
                                 </div>
                                  <div class="col-md-6 mb-3">
                                     <label for="tar_fechafin" class="form-label">Fecha de Finalización (Opcional)</label>
@@ -127,7 +126,6 @@
                                 <!-- Filas de criterios generadas por JS -->
                             </tbody>
                         </table>
-                        <div id="no-criterios-msg" class="text-center text-muted p-4" style="display: none;">
                         <div id="no-criterios-msg" class="text-center text-muted p-4" style="display: none;">
                             Aún no se han agregado criterios a esta tarea.
                         </div>

@@ -16,7 +16,6 @@ class Tareas extends BaseController
         $usuarioModel = new UsuarioModel();
         $proyectoModel = new ProyectoModel();
         $proyecto = $proyectoModel->find($id_proyecto); 
-        $proyecto = $proyectoModel->find($id_proyecto); 
 
         $listaUsuarios = $usuarioModel->obtenerUsuariosParaDropdown(); 
 
@@ -61,29 +60,7 @@ class Tareas extends BaseController
     if (!$this->request->isAJAX()) {
         return $this->response->setStatusCode(403, 'Forbidden');
     }
-   public function ajax_gestionar_tarea_criterio()
-{
-    if (!$this->request->isAJAX()) {
-        return $this->response->setStatusCode(403, 'Forbidden');
-    }
 
-    // --- REFINAMIENTO DE VALIDACIÓN ---
-    // Hacemos que el criterio sea opcional si solo se quiere guardar la tarea.
-    $criterioDesc = $this->request->getPost('criterio_desc');
-    $validationRules = ['tar_nom' => 'required'];
-
-    // Solo validamos el criterio si el usuario ha escrito algo en él.
-    if (!empty($criterioDesc)) {
-        $validationRules['criterio_desc'] = 'required';
-        $validationRules['criterio_puntos'] = 'required|numeric';
-    }
-
-    if (!$this->validate($validationRules)) {
-        return $this->response->setJSON(['status' => 'error', 'message' => 'El nombre de la tarea es obligatorio.']);
-    }
-    
-    try {
-        $tareaId = $this->request->getPost('tarea_id') ?: 0;
     // --- REFINAMIENTO DE VALIDACIÓN ---
     // Hacemos que el criterio sea opcional si solo se quiere guardar la tarea.
     $criterioDesc = $this->request->getPost('criterio_desc');
@@ -138,25 +115,6 @@ class Tareas extends BaseController
         $db = \Config\Database::connect();
         $query = $db->query($sql, $params);
         $result = $query->getRow();
-        // --- CORRECCIÓN 2: REORDENAR EL ARRAY DE PARÁMETROS ---
-        // El orden ahora coincide 100% con el SP.
-        $params = [
-            $tareaId,
-            $this->request->getPost('proy_id'),
-            $this->request->getPost('stat_id') ?: 1,
-            $this->request->getPost('prio_id') ?: 2,
-            $this->request->getPost('gpo_id') ?: 3,
-            $this->request->getPost('tar_nom'),
-            $this->request->getPost('tar_desc'),
-            $this->request->getPost('solicitado_por_usuario_id'),
-            $this->request->getPost('tar_fechafin') ?: null, // <-- MOVIMOS ESTE A LA POSICIÓN CORRECTA
-            $this->request->getPost('criterio_desc'),
-            $this->request->getPost('criterio_puntos')
-        ];
-
-        $db = \Config\Database::connect();
-        $query = $db->query($sql, $params);
-        $result = $query->getRow();
 
         // El SP puede no devolver un CriterioID si solo se guardó la tarea
         if ($result && $result->TareaID) {
@@ -169,22 +127,7 @@ class Tareas extends BaseController
         } else {
             throw new \Exception('El procedimiento almacenado no devolvió un resultado válido.');
         }
-        // El SP puede no devolver un CriterioID si solo se guardó la tarea
-        if ($result && $result->TareaID) {
-            return $this->response->setJSON([
-                'status' => 'success',
-                'message' => 'Operación completada exitosamente.',
-                'tarea_id' => $result->TareaID,
-                'criterio_id' => $result->CriterioID ?? null // Devolvemos null si no se creó criterio
-            ]);
-        } else {
-            throw new \Exception('El procedimiento almacenado no devolvió un resultado válido.');
-        }
 
-    } catch (\Exception $e) {
-        return $this->response->setJSON(['status' => 'error', 'message' => 'Error en la base de datos: ' . $e->getMessage()]);
-    }
-}
     } catch (\Exception $e) {
         return $this->response->setJSON(['status' => 'error', 'message' => 'Error en la base de datos: ' . $e->getMessage()]);
     }
