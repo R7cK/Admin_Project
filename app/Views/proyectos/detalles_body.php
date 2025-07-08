@@ -1,5 +1,6 @@
-<body class="<?= ($settings['default_theme'] ?? 'light') === 'dark' ? 'theme-dark' : 'theme-light' ?>">
 
+
+<body class="<?= ($settings['default_theme'] ?? 'light') === 'dark' ? 'theme-dark' : 'theme-light' ?>">
 <div class="main-container">
     <aside class="sidebar d-none d-lg-block">
         <h5 class="text-center text my-3">AdminProject</h5>
@@ -24,67 +25,67 @@
                 <p class="text mb-0"><?= esc($proyecto['descripcion']) ?></p>
             </div>
 
-            <div class="row text-center mt-4">
-                <div class="col-md-3">
-                    <div class="stat-card">
-                        <h6>Estado</h6>
-                        <p class="fs-4 fw-bold text-success"><?= esc($proyecto['status']) ?></p>
+           <div class="container-fluid mt-4">
+                <div class="row">
+                    <!-- COLUMNA 1: USUARIOS -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Información de Usuarios</h5>
+                                <div class="stat-card mb-4">
+                                    <h6>Usuarios Asignados</h6>
+                                    <p class="fs-4 fw-bold"><?= esc($total_usuarios) ?></p>
+                                </div>
+                                <h6>Miembros del equipo:</h6>
+                                <ul>
+                                    <?= $html_lista_usuarios ?>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="stat-card">
-                        <h6>Progreso de Tareas</h6>
-                        <?php $progreso = ($stats['total_tareas'] > 0) ? round(($stats['tareas_completadas'] / $stats['total_tareas']) * 100) : 0; ?>
-                        <p class="fs-4 fw-bold text-info"><?= $progreso ?>%</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="stat-card">
-                        <h6>Usuarios Asignados</h6>
-                        <p class="fs-4 fw-bold"><?= esc($total_usuarios) ?></p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="stat-card">
-                        <h6>Grupos Involucrados</h6>
-                        <p class="fs-4 fw-bold"><?= esc($total_grupos) ?></p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row mt-5">
-                <div class="col-lg-7">
-                    <h5>Tareas Recientes</h5>
-                    <ul class="list-group">
-                        <?php if (!empty($tareas)): ?>
-                            <?php 
-                                $statusColors = ['En Progreso' => 'bg-primary', 'Completado'  => 'bg-success', 'Pendiente'   => 'bg-warning text-dark', 'Atrasado'    => 'bg-danger', 'En Espera'   => 'bg-info', 'Cancelado'   => 'bg-secondary'];
-                                foreach($tareas as $tarea): 
-                                    $badgeClass = $statusColors[$tarea['STAT_NOM']] ?? 'bg-light text-dark';
-                                ?>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <?= esc($tarea['TAR_NOM']) ?>
-                                    <span class="badge <?= $badgeClass ?>"><?= esc($tarea['STAT_NOM']) ?></span>
-                                </li>
-                            <?php endforeach; else: ?>
-                            <li class="list-group-item text-center text-muted">No hay tareas registradas.</li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-                <div class="col-lg-5">
-                    <h5>Equipo del Proyecto</h5>
-                    <h6>Grupos:</h6>
-                    <ul>
-                        <?= $html_lista_grupos ?>
-                    </ul>
-                    <h6 class="mt-3">Usuarios:</h6>
-                    <ul>
-                        <?= $html_lista_usuarios ?>
-                    </ul>
-                </div>
-            </div>
+                    <!-- COLUMNA 2: GRUPOS -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Información de Grupos</h5>
+                                <div class="stat-card mb-4">
+                                    <h6>Grupos Involucrados</h6>
+                                    <p class="fs-4 fw-bold"><?= esc($total_grupos) ?></p>
+                                </div>
+                                <h6>Grupos del proyecto:</h6>
+                                <ul>
+                                    <?= $html_lista_grupos ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div><!-- Fin de .row -->
+                <!-- COLUMNA 3: TAREAS (CORRECTA) -->
+                    <br><div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Tareas del Proyecto</h5>
+                                <div class="table-responsive">
+                                    <table id="tabla-tareas-proyecto" class="table table-striped table-hover" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Tarea</th>
+                                                <th>Estado</th>
+                                                <th>Vencimiento</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- DataTables llenará esta sección dinámicamente -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div><!-- Fin de .container-fluid -->
         </div>
     </div>
 </div>
-
-</body>

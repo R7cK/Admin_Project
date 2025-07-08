@@ -72,4 +72,8 @@
         body.theme-dark .modal-body .form-label { color: var(--main-text) !important; }
 
     </style>
+      <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap5.css">
+
+    <!-- Tu archivo de estilos personalizados -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
 </head>

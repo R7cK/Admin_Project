@@ -144,28 +144,28 @@
                         <table id="tabla-criterios" class="table table-hover" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th style="width: 50px;" class="text-center">Cumplido</th>
+                                    <th style="width: 50px;" class="text-right">Cumplido</th>
                                     <th>Descripción</th>
                                     <th style="width: 120px;" class="text-right">Puntos</th>
-                                    <th style="width: 150px;">Fecha Creación</th>
-                                    <th style="width: 100px;" class="text-center no-sort">Acciones</th>
+                                    <th style="width: 150px;" class="text-right"></th>>Fecha Creación</th>
+                                    <th style="width: 100px;" class="text-right no-sort">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if (!empty($criteriosExistentes)): ?>
                                     <?php foreach ($criteriosExistentes as $criterio): ?>
                                         <tr data-criterio-id="<?= esc($criterio['CRITERIO_ID']) ?>">
-                                            <td class="text-center align-middle">
+                                            <td class="text-right align-middle">
                                                 <input class="form-check-input criterio-cumplido-check" type="checkbox" 
                                                        data-criterio-id="<?= esc($criterio['CRITERIO_ID']) ?>"
                                                        <?= $criterio['CUMPLIDO'] ? 'checked' : '' ?>>
                                             </td>
                                             <td class="align-middle"><?= esc($criterio['CRITERIO_DESCRIPCION']) ?></td>
-                                            <td class="text-center align-middle"><?= esc($criterio['PUNTOS_ESTIMADOS']) ?></td>
+                                            <td class="text-right align-middle"><?= esc($criterio['PUNTOS_ESTIMADOS']) ?></td>
                                             <td class="align-middle">
                                                 <?= esc(date('d/m/Y H:i', strtotime($criterio['FECHA_CREACION']))) ?>
                                             </td>
-                                            <td class="text-center align-middle">
+                                            <td class="text-right align-middle">
                                                 <button type="button" class="btn btn-sm btn-warning btn-editar-criterio" title="Editar Criterio"><i class="fas fa-pencil-alt"></i></button>
                                                 <button type="button" class="btn btn-danger btn-sm btn-eliminar-criterio" title="Eliminar Criterio"><i class="fas fa-trash"></i></button>
                                             </td>

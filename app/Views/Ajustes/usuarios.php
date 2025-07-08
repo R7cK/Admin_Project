@@ -1,3 +1,4 @@
+
 <body class="<?= ($settings['default_theme'] ?? 'dark') === 'dark' ? 'theme-dark' : '' ?>">
 
 <div class="main-container">
@@ -10,9 +11,23 @@
     </aside>
 
     <div class="content-wrapper">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+             <button class="btn btn-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas"><i class="fas fa-bars"></i></button>
+           <h1 class="panel-title mb-0">Gestión de Usuarios y Grupos</h1>
+        </div>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="panel-title mb-0">Gestión de Usuarios y Grupos</h1>
+<div class="offcanvas offcanvas-start sidebar" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">AdminProject</h5>
+        <!-- El btn-close-white es correcto para un fondo oscuro -->
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <nav class="sidebar-nav">
+            <a href="<?= site_url('dashboard') ?>"><i class="fas fa-home"></i> INICIO</a>
+           <a href="<?= site_url('ajustes') ?>"><i class="fas fa-cog"></i> AJUSTES</a>
+        </nav>
+    </div>
 </div>
 
 <div class="data-panel">

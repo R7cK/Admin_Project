@@ -97,7 +97,51 @@
       background-color: #ddd;
     }
 
+     .chrome-tabs {
+        border-bottom: 1px solid #dee2e6;
+        padding-left: 10px;
+    }
+
+    .chrome-tabs .nav-item {
+        margin-right: 2px;
+    }
+
+    .chrome-tabs .nav-link {
+        background-color: #f1f3f4; /* Un gris claro similar al de Chrome */
+        border: 1px solid #dee2e6;
+        border-bottom: none;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding: 0.5rem 1.5rem;
+        position: relative;
+        top: 1px; /* Para que se "siente" sobre la línea inferior */
+        color: #5f6368; /* Color de texto de la pestaña inactiva */
+    }
+
+    /* Estilo para la pestaña activa */
+    .chrome-tabs .nav-link.active {
+        background-color: #ffffff; /* Fondo blanco para que se fusione con el contenido */
+        border-color: #dee2e6;
+        border-bottom-color: #ffffff; /* Oculta el borde inferior de la pestaña activa */
+        color: #0d6efd; /* Color de texto de la pestaña activa */
+        font-weight: 500;
+    }
+
+    /* Estilo para el hover en pestañas inactivas */
+    .chrome-tabs .nav-link:not(.active):hover {
+        background-color: #e8eaed;
+        border-color: #dee2e6;
+    }
+
+    /* Eliminar el borde por defecto de nav-tabs de Bootstrap */
+    .nav-tabs {
+        border-bottom: none;
+    }
     
+    /* Ajustes para que DataTables se vea bien */
+    .dataTables_wrapper {
+        padding-top: 1rem;
+    }
     </style>
 </head>
 

@@ -5,6 +5,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\Proyecto;
 use App\Models\ProyectoModel;
 use Config\Database;
+use App\Models\TareaModel;
 
 class Proyectos extends BaseController
 {
@@ -74,8 +75,7 @@ class Proyectos extends BaseController
         // =====================================================================
 
         // --- 5. OBTENER TAREAS RECIENTES (Sin cambios) ---
-        $tareas = $db->table('dbo.TAREAS t')->select('t.TAR_NOM, e.STAT_NOM')->join('dbo.ESTATUS e', 't.STAT_ID = e.STAT_ID', 'left')->where('t.PROY_ID', $projectId)->orderBy('t.TAR_FECHAINI', 'DESC')->limit(5)->get()->getResultArray();
-
+        
         // --- CONSTRUCCIÓN DEL ARRAY FINAL PARA LA VISTA ---
         $data['proyecto'] = $proyectoInfo;
         $data['stats'] = [
@@ -88,7 +88,7 @@ class Proyectos extends BaseController
         $data['html_lista_usuarios'] = $html_usuarios;
         $data['html_lista_grupos'] = $html_grupos;
         
-        $data['tareas'] = $tareas;
+   
         $data['settings'] = $settings;
         $data['userData'] = $session->get('userData');
         
@@ -125,4 +125,144 @@ class Proyectos extends BaseController
             return $this->fail('No se pudo actualizar el proyecto mediante el procedimiento almacenado.');
         }
     }
+
+     public function getTareasPaginadas($projectId)
+    {
+        // Usaremos el modelo de Tareas para aprovechar la paginación de CodeIgniter
+        $model = new TareaModel(); // Necesitas crear este modelo
+
+        // El 'tareas' en getVar('page_tareas') es un grupo de paginación
+        // para no interferir con otras paginaciones en la misma página.
+        $page = $this->request->getVar('page_tareas') ?? 1;
+        $perPage = 5; // Tareas por página
+
+        // Usamos el Query Builder para construir la consulta
+        $query = $model->db->table('dbo.TAREAS t')
+            ->select("t.TAR_NOM, e.STAT_NOM, DATEDIFF(day, GETDATE(), t.TAR_FECHAFIN) as dias_restantes")
+            ->join('dbo.ESTATUS e', 't.STAT_ID = e.STAT_ID', 'left')
+            ->where('t.PROY_ID', $projectId)
+            ->orderBy('t.TAR_FECHAINI', 'DESC');
+
+        // Obtenemos los datos paginados
+        $data = [
+            'tareas' => $query->get($perPage, ($page - 1) * $perPage)->getResultArray(),
+            'pager'  => $model->pager->makeLinks($page, $perPage, $query->countAllResults(false), 'bootstrap_template', 0, 'tareas')
+        ];
+        
+        // Devolvemos los datos en formato JSON
+        return $this->respond($data);
+    }
+
+   public function ajax_get_tareas_datatable($projectId)
+{
+    // Verificamos que sea una petición AJAX para seguridad
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403, 'Forbidden');
+    }
+
+    $db = \Config\Database::connect();
+    $builder = $db->table('dbo.TAREAS t');
+
+    // Parámetros que envía DataTables
+    $draw = $this->request->getVar('draw');
+    $start = $this->request->getVar('start');
+    $length = $this->request->getVar('length');
+    $searchValue = $this->request->getVar('search')['value'];
+    $order = $this->request->getVar('order')[0] ?? null;
+
+    // Columnas que se pueden buscar y ordenar
+    $columns = ['t.TAR_NOM', 'e.STAT_NOM', null]; // null para la columna de vencimiento que es calculada
+
+    // --- CONSTRUCCIÓN DE LA CONSULTA ---
+    $builder->select("t.TAR_NOM, e.STAT_NOM, t.TAR_FECHAFIN, DATEDIFF(day, GETDATE(), t.TAR_FECHAFIN) as dias_restantes")
+            ->join('dbo.ESTATUS e', 't.STAT_ID = e.STAT_ID', 'left')
+            ->where('t.PROY_ID', $projectId);
+
+    // --- LÓGICA DE BÚSQUEDA ---
+    if (!empty($searchValue)) {
+        $builder->groupStart();
+        $builder->like('t.TAR_NOM', $searchValue);
+        $builder->orLike('e.STAT_NOM', $searchValue);
+        $builder->groupEnd();
+    }
+
+    // --- CONTEO PARA LA PAGINACIÓN ---
+    // Total de registros filtrados (considerando la búsqueda)
+    $recordsFiltered = $builder->countAllResults(false); // false para no resetear la consulta
+    // Total de registros sin filtrar
+    $totalRecordsBuilder = $db->table('dbo.TAREAS')->where('PROY_ID', $projectId);
+    $recordsTotal = $totalRecordsBuilder->countAllResults();
+
+    // --- LÓGICA DE ORDENAMIENTO ---
+    if ($order && isset($columns[$order['column']])) {
+        // Ordenamiento definido por el usuario al hacer clic en una columna
+        $colName = $columns[$order['column']];
+        if ($colName) { // Solo ordena si la columna no es calculada en PHP
+            $builder->orderBy($colName, $order['dir']);
+        }
+    } else {
+        // ORDEN POR DEFECTO PERSONALIZADO (Atrasados > Próximos a vencer > Sin fecha)
+        $customSortOrder = "
+            CASE 
+                WHEN DATEDIFF(day, GETDATE(), t.TAR_FECHAFIN) < 0 THEN 1 
+                WHEN DATEDIFF(day, GETDATE(), t.TAR_FECHAFIN) >= 0 THEN 2 
+                ELSE 3 
+            END ASC, 
+            t.TAR_FECHAFIN ASC
+        ";
+        // El tercer parámetro 'false' es crucial para que CI4 no escape la consulta.
+        $builder->orderBy($customSortOrder, '', false);
+    }
+
+    // --- LÍMITE PARA LA PAGINACIÓN ---
+    if ($length != -1) {
+        $builder->limit($length, $start);
+    }
+
+    $tareas = $builder->get()->getResultArray();
+
+    // --- FORMATEO DE DATOS PARA LA VISTA ---
+    $data = [];
+    foreach ($tareas as $tarea) {
+        // Lógica de vencimiento
+        $vencimientoHtml = '';
+        if ($tarea['STAT_NOM'] === 'Completado' || $tarea['STAT_NOM'] === 'Cancelado') {
+            $vencimientoHtml = 'Tarea finalizada.';
+        } elseif (is_null($tarea['dias_restantes'])) {
+            $vencimientoHtml = 'Sin fecha límite.';
+        } elseif ($tarea['dias_restantes'] < 0) {
+            $vencimientoHtml = '<span class="text-danger fw-bold">Atrasada por ' . abs($tarea['dias_restantes']) . ' días</span>';
+        } elseif ($tarea['dias_restantes'] == 0) {
+            $vencimientoHtml = '<span class="text-warning fw-bold">Vence hoy</span>';
+        } else {
+            $vencimientoHtml = 'Vence en ' . $tarea['dias_restantes'] . ' días';
+        }
+        
+        // Lógica de colores para el estado
+        $statusColors = [
+            'En Progreso' => 'bg-primary', 'Completado'  => 'bg-success', 
+            'Pendiente'   => 'bg-warning text-dark', 'Atrasado'    => 'bg-danger', 
+            'En Espera'   => 'bg-info', 'Cancelado'   => 'bg-secondary'
+        ];
+        $badgeClass = $statusColors[$tarea['STAT_NOM']] ?? 'bg-light text-dark';
+        $estadoHtml = '<span class="badge ' . $badgeClass . ' rounded-pill">' . esc($tarea['STAT_NOM']) . '</span>';
+
+        $data[] = [
+            'tar_nom'     => esc($tarea['TAR_NOM']),
+            'stat_nom'    => $estadoHtml,
+            'vencimiento' => $vencimientoHtml
+        ];
+    }
+
+    // --- RESPUESTA FINAL EN FORMATO JSON PARA DATATABLES ---
+    $output = [
+        'draw'            => intval($draw),
+        'recordsTotal'    => $recordsTotal,
+        'recordsFiltered' => $recordsFiltered,
+        'data'            => $data,
+    ];
+
+    return $this->response->setJSON($output);
 }
+}
+

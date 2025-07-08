@@ -95,3 +95,4 @@ $routes->delete('/ajustes/deleteUsuario/(:num)', 'Ajustes::deleteUsuario/$1');
 $routes->get('/ajustes/usuarios', 'Ajustes::usuarios');
 $routes->post('/ajustes/crearUsuario', 'Ajustes::crearUsuario');
 $routes->post('/ajustes/crearGrupo', 'Ajustes::crearGrupo');
+$routes->post('proyectos/ajax_get_tareas_datatable/(:num)', 'Proyectos::ajax_get_tareas_datatable/$1');
