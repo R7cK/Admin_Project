@@ -40,6 +40,9 @@ $routes->group('catalogos', ['filter' => 'auth'], function($routes) {
     $routes->post('create/(:segment)', 'Catalogos::create/$1');
     $routes->post('update/(:segment)/(:num)', 'Catalogos::update/$1/$2');
     $routes->post('delete/(:segment)/(:num)', 'Catalogos::delete/$1/$2');
+    $routes->get('catalogos/datos/(:segment)', 'Catalogos::datosCatalogo/$1');
+
+
 });
 $routes->get('/ajustes', 'Ajustes::index');
 $routes->get('/ajustes/generales', 'Ajustes::generales');
@@ -58,7 +61,8 @@ $routes->post('projects/create', 'Projects::create');
 
 // También asegúrate de tener la ruta para el formulario
 $routes->get('projects/new', 'Projects::new');
-
+// En app/Config/Routes.php
+$routes->post('/projects/check_name', 'Projects::check_name');
 
 // Ruta para la nueva sección de gestión de Usuarios y Grupos
 $routes->get('/gestion', 'Gestion::index');

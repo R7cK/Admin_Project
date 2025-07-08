@@ -97,7 +97,61 @@
       background-color: #ddd;
     }
 
+<<<<<<< Updated upstream
     
+=======
+    /* --- Estilos para la barra de catálogos unificada --- */
+.catalogs-bar-wrapper {
+    display: flex;
+    background-color: var(--panel-bg, #ffffff);
+    border: 1px solid var(--border-color, #dee2e6);
+    border-radius: 0.375rem; /* similar a los inputs de bootstrap */
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, .15);
+    overflow: hidden;
+    width: 100%;
+}
+
+.catalog-item {
+    flex: 1; /* Hace que cada item ocupe el mismo espacio */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+/* Agrega un separador vertical entre los items */
+.catalog-item:not(:last-child) {
+    border-right: 1px solid var(--border-color, #dee2e6);
+}
+
+/* Efecto al pasar el mouse */
+.catalog-item:hover {
+    background-color: var(--sidebar-hover-bg, #e9ecef);
+}
+
+.catalog-item .catalog-text {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.catalog-item i {
+    color: #dddfeb; /* Color de los íconos originales */
+}
+
+/* Para que se vea bien en celulares (se apilan en vez de estar lado a lado) */
+@media (max-width: 768px) {
+    .catalogs-bar-wrapper {
+        flex-direction: column; /* Apila los elementos */
+    }
+    .catalog-item:not(:last-child) {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color, #dee2e6); /* Separador horizontal */
+    }
+}
+
+>>>>>>> Stashed changes
     </style>
 </head>
 
@@ -140,6 +194,19 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<<<<<<< Updated upstream
+=======
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script> <script src="<?= base_url('vendor/jquery-easing/jquery.easing.min.js') ?>"></script>
+<script src="<?= base_url('js/sb-admin-2.min.js') ?>"></script>
+<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    // Inicializa todos los popovers en la página
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+</script>
+>>>>>>> Stashed changes
 <?= $this->renderSection('scripts') ?>
 </body>
 </html>
