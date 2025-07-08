@@ -75,9 +75,15 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6 mb-3">
+                                    <label for="tar_fechafin" class="form-label">Fecha de Finalización (Opcional)</label>
+                                    <input type="date" class="form-control" name="tar_fechafin" id="tar_fechafin" 
+                                           value="<?= esc($tarea['TAR_FECHAFIN'] ?? '') ?>">
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
                                     <label for="solicitado_por_usuario_id" class="form-label">Solicitado por</label>
                                     <select class="form-select" name="solicitado_por_usuario_id" id="solicitado_por_usuario_id" required>
                                         <option value="" disabled>-- Seleccione un usuario --</option>
@@ -91,11 +97,7 @@
                                         <?php endif; ?>
                                     </select>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="tar_fechafin" class="form-label">Fecha de Finalización (Opcional)</label>
-                                    <input type="date" class="form-control" name="tar_fechafin" id="tar_fechafin" 
-                                           value="<?= esc($tarea['TAR_FECHAFIN'] ?? '') ?>">
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -144,7 +146,7 @@
                                 <tr>
                                     <th style="width: 50px;" class="text-center">Cumplido</th>
                                     <th>Descripción</th>
-                                    <th style="width: 120px;" class="text-center">Puntos</th>
+                                    <th style="width: 120px;" class="text-right">Puntos</th>
                                     <th style="width: 150px;">Fecha Creación</th>
                                     <th style="width: 100px;" class="text-center no-sort">Acciones</th>
                                 </tr>
