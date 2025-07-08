@@ -102,8 +102,6 @@ class Projects extends BaseController
         $db = \Config\Database::connect();
         // etc...
     }
-<<<<<<< Updated upstream
-=======
 
         public function check_name()
     {
@@ -121,5 +119,4 @@ class Projects extends BaseController
         // Si no es una petición AJAX, no se permite el acceso.
         return $this->response->setStatusCode(403, 'Forbidden');
     }
->>>>>>> Stashed changes
 }

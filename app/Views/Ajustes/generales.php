@@ -70,6 +70,7 @@
                         <input class="form-check-input" type="checkbox" name="feedback_from_users" value="1" <?= ($settings['feedback_from_users'] ?? 0) == '1' ? 'checked' : '' ?>>
                     </div>
                 </div>
+
                 <div class="mb-4">
                     <label for="default_theme" class="form-label">Tema por Defecto para Usuarios</label>
                     <select name="default_theme" id="default_theme" class="form-select">

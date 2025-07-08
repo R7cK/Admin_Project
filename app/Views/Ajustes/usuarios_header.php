@@ -20,12 +20,8 @@
         body.theme-dark {
             --body-bg: #20202d; --panel-bg: #2c2c3e; --sidebar-bg: #2c2c3e;
             --sidebar-header-text: #ffffff; --sidebar-text: #a0a0b0; --sidebar-hover-bg: #20202d;
-<<<<<<< Updated upstream
-            --main-text:rgb(0, 0, 0); --secondary-text: #a0a0b0; 
-=======
             --main-text: #ffffff; /* <--- LÍNEA CORREGIDA */
             --secondary-text:rgb(255, 255, 255); 
->>>>>>> Stashed changes
             --border-color: #4a4a6a; --form-input-bg: #4a4a6a; --form-input-text: #e0e0e0;
         }
         body.theme-dark .form-label {

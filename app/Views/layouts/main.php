@@ -97,9 +97,6 @@
       background-color: #ddd;
     }
 
-<<<<<<< Updated upstream
-    
-=======
     /* --- Estilos para la barra de catálogos unificada --- */
 .catalogs-bar-wrapper {
     display: flex;
@@ -151,7 +148,6 @@
     }
 }
 
->>>>>>> Stashed changes
     </style>
 </head>
 
@@ -194,8 +190,6 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<<<<<<< Updated upstream
-=======
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script> <script src="<?= base_url('vendor/jquery-easing/jquery.easing.min.js') ?>"></script>
 <script src="<?= base_url('js/sb-admin-2.min.js') ?>"></script>
 <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -206,7 +200,6 @@
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 </script>
->>>>>>> Stashed changes
 <?= $this->renderSection('scripts') ?>
 </body>
 </html>
